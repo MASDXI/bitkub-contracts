@@ -54,7 +54,7 @@ describe("KAP20Base", function () {
     });
 
     it("has admin router", async function () {
-      expect(await token.getRouterImplemetation()).to.equal(accounts[0].address);
+      expect(await token.router()).to.equal(accounts[0].address);
     });
 
     it("has KYC", async function () {
