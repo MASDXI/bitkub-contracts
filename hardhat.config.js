@@ -27,8 +27,8 @@ module.exports = {
     slow: "0",
   },
   docgen: {
-    path: './docs',
-    clear: true,
-    runOnCompile: true,
-  }
+    path: "./docs",
+    clear: false,
+    runOnCompile: false,
+  },
 };

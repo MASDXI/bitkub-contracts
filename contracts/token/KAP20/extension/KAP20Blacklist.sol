@@ -40,7 +40,7 @@ abstract contract KAP20Blacklist is KAP20, IKAP20Blacklist {
         );
         require(
             !hasBlacklist(account),
-            "KAP20Blacklist: account must be in blacklist"
+            "KAP20Blacklist: account must not in blacklist"
         );
         _blacklist[account] = true;
         emit BlacklistAdded(account, _msgSender());

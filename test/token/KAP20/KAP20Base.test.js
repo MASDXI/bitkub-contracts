@@ -1,29 +1,25 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
+const constant = require("./constant");
+const { TOKEN } = constant;
 
 describe("KAP20Base", function () {
-  const TOKEN = {
-    projectname: "My Token Project" ,
-    name: "My Token",
-    symbol: "MTKN",
-    decimals: 18,
-  }
-  let accounts
-  let token
+  let accounts;
+  let token;
 
   beforeEach(async () => {
     const KAP20 = await ethers.getContractFactory("KAP20");
     accounts = await ethers.getSigners();
     token = await KAP20.deploy(
-      TOKEN.projectname, 
-      TOKEN.name, 
-      TOKEN.symbol, 
+      TOKEN.projectname,
+      TOKEN.name,
+      TOKEN.symbol,
       TOKEN.decimals,
       4,
       accounts[0].address,
       accounts[0].address,
       accounts[0].address,
-      accounts[0].address,
+      accounts[0].address
     );
     await token.deployed();
   });
@@ -64,7 +60,5 @@ describe("KAP20Base", function () {
     it("is paused", async function () {
       expect(await token.paused()).to.equal(false);
     });
-
   });
-   
 });

@@ -1,14 +1,9 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
+const constant = require("./constant");
+const { TOKEN, ZERO_ADDRESS } = constant;
 
 describe("MockKAP20", function () {
-  const TOKEN = {
-    projectname: "My Token Project",
-    name: "My Token",
-    symbol: "MTKN",
-    decimals: 18,
-    hardcap: ethers.utils.parseEther("1000000"),
-  };
   let accounts;
   let token;
 
@@ -53,8 +48,34 @@ describe("MockKAP20", function () {
 
     it("revoke blacklist emit event", async function () {
       await token.addBlacklist(accounts[1].address);
-      await token.revokeBlacklist(accounts[1].address);
-      expect(await token.hasBlacklist(accounts[1].address)).to.equal(false);
+      await expect(token.revokeBlacklist(accounts[1].address))
+        .to.emit(token, "BlacklistRevoked")
+        .withArgs(accounts[1].address, accounts[0].address);
+    });
+
+    it("try to added exist blacklist account", async function () {
+      await token.addBlacklist(accounts[1].address);
+      await expect(token.addBlacklist(accounts[1].address)).to.be.revertedWith(
+        "KAP20Blacklist: account must not in blacklist"
+      );
+    });
+
+    it("try to added exist blacklist account", async function () {
+      await expect(
+        token.revokeBlacklist(accounts[1].address)
+      ).to.be.revertedWith("KAP20Blacklist: account must be in blacklist");
+    });
+
+    it("try to add blacklist zero address should be reverted", async function () {
+      await expect(token.addBlacklist(ZERO_ADDRESS)).to.be.revertedWith(
+        "KAP20Blacklist: can't blacklist deafult address"
+      );
+    });
+
+    it("try to revoke blacklist zero address should be reverted", async function () {
+      await expect(token.revokeBlacklist(ZERO_ADDRESS)).to.be.revertedWith(
+        "KAP20Blacklist: can't blacklist deafult address"
+      );
     });
 
     it("try transfer to blacklist address", async function () {});
