@@ -3,7 +3,7 @@
     "build": "",
     "publish": "",
     "compile": "hardhat compile",
-    "clean": "hardhat clean && rm -rf cache coverage",
+    "clean": "hardhat clean && rm -rf cache coverage docs",
     "test": "hardhat test",
     "test:kap20": "hardhat test ./test/token/KAP20.test.js",
     "test:kap20:blacklist": "hardhat test ./test/token/KAP20Blacklist.test.js",

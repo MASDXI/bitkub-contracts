@@ -14,7 +14,7 @@ abstract contract Committee is Context {
 
     modifier onlyCommittee() {
         require(
-            _msgSender()== _committee,
+            _msgSender() == _committee,
             "Committee: Restricted only committee"
         );
         _;

@@ -8,16 +8,16 @@ abstract contract Router {
 
     event TransferRouterChanged(address routerContract);
 
-    constructor(IRouter router_) {
-        _router = router_;
+    constructor(address router_) {
+        _router = IRouter(router_);
     }
 
-    function _setTransferRouter(IRouter routerContract) internal {
-        _router = routerContract;
+    function _setTransferRouter(address routerContract) internal {
+        _router = IRouter(routerContract);
         emit TransferRouterChanged(address(routerContract));
     }
 
-    function getRouterImplemetation() public view returns (address) {
+    function router() public view returns (address) {
         return address(_router);
     }
 }

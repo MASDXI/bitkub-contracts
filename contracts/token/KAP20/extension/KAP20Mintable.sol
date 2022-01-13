@@ -8,6 +8,8 @@ import "../KAP20.sol";
 abstract contract KAP20Mintable is KAP20 {
     function mint(address recipient, uint256 amount)
         external
+        virtual
+        whenNotPaused
         onlySuperAdmin
         returns (bool)
     {

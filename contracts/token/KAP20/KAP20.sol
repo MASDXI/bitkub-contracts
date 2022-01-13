@@ -6,6 +6,7 @@ import "../../security/Authorization.sol";
 import "../../security/Committee.sol";
 import "../../security/KYCHandler.sol";
 import "../../security/Pausable.sol";
+// not sure is router is mendatory or not in KAP20
 import "../../router/Router.sol";
 
 contract KAP20 is
@@ -96,6 +97,7 @@ contract KAP20 is
         public
         virtual
         override
+        whenNotPaused
         returns (bool)
     {
         _approve(_msgSender(), spender, amount);
@@ -225,11 +227,11 @@ contract KAP20 is
         uint256 amount
     ) external override onlySuperAdminOrAdmin returns (bool) {
         require(
-            kycImplemetation().kycsLevel(owner) >= acceptedKycLevel,
+            kyc().kycsLevel(owner) >= acceptedKycLevel,
             "KAP20: Owner address is not a KYC user"
         );
         require(
-            kycImplemetation().kycsLevel(spender) >= acceptedKycLevel,
+            kyc().kycsLevel(spender) >= acceptedKycLevel,
             "KAP20: Spender address is not a KYC user"
         );
 
@@ -249,11 +251,11 @@ contract KAP20 is
         returns (bool)
     {
         require(
-            kycImplemetation().kycsLevel(sender) >= acceptedKycLevel,
+            kyc().kycsLevel(sender) >= acceptedKycLevel,
             "KAP20: Sender address is not a KYC user"
         );
         require(
-            kycImplemetation().kycsLevel(recipient) >= acceptedKycLevel,
+            kyc().kycsLevel(recipient) >= acceptedKycLevel,
             "KAP20: Recipient address is not a KYC user"
         );
 
@@ -273,7 +275,7 @@ contract KAP20 is
         returns (bool)
     {
         require(
-            kycImplemetation().kycsLevel(sender) >= acceptedKycLevel,
+            kyc().kycsLevel(sender) >= acceptedKycLevel,
             "KAP20: Sender address is not a KYC user"
         );
 
@@ -309,9 +311,10 @@ contract KAP20 is
     function unpause() public onlyCommittee {
         _unpause();
     }
+
     // #############################################################################################################################
 
-    function setTransferRouter(IRouter transferRouter) external onlyCommittee {
+    function setTransferRouter(address transferRouter) external onlyCommittee {
         _setTransferRouter(transferRouter);
     }
 
@@ -319,7 +322,7 @@ contract KAP20 is
         _activateOnlyKycAddress();
     }
 
-    function setKYC(IKYCBitkubChain kycContract) external onlyCommittee {
+    function setKYC(address kycContract) external onlyCommittee {
         _setKYC(kycContract);
     }
 
