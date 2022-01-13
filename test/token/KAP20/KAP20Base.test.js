@@ -28,7 +28,7 @@ describe("KAP20Base", function () {
     await token.deployed();
   });
 
-  describe("KAP20 get", function () {
+  describe("KAP20Base feature", function () {
     it("has a project name", async function () {
       expect(await token.project()).to.equal(TOKEN.projectname);
     });
