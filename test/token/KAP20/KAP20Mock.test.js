@@ -1,6 +1,5 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
-const { BUILD_INFO_DIR_NAME } = require("hardhat/internal/constants");
 const constant = require("./constant");
 const { TOKEN, ZERO_ADDRESS } = constant;
 
