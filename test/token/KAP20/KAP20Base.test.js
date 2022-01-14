@@ -72,6 +72,15 @@ describe("KAP20Base", function () {
       expect(await token.paused()).to.equal(false);
     });
 
+    it("try to paused whenPaused", async function () {
+      await token.pause();
+      await expect(token.pause()).to.be.revertedWith("Pausable: paused");
+    });
+
+    it("try to unpaused whenNotPaused", async function () {
+      await expect(token.unpause()).to.be.revertedWith("Pausable: not paused");
+    });
+
     it("set unpaused to paused emit event", async function () {
       await expect(token.pause())
         .to.emit(token, "Paused")

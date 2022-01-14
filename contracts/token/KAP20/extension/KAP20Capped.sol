@@ -6,7 +6,7 @@ import "../KAP20.sol";
 /// @author <author>@bitkub.com
 /// @title extension capped feature for KAP-20 Token Standard
 abstract contract KAP20Capped is KAP20 {
-    uint256 private immutable _hardcap;
+    uint256 private _hardcap;
 
     constructor(uint256 hardcap_) {
         require(hardcap_ > 0, "KAP20Capped: cap is 0");

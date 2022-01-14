@@ -38,7 +38,9 @@ contract MockToken is
             transferRouter_
         )
         KAP20Capped(hardcap_)
-    {}
+    {
+        _mint(_msgSender(),100000*(10**decimals()));
+    }
 
     function _beforeTokenTransfer(
         address from,

@@ -1,5 +1,6 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
+const { BUILD_INFO_DIR_NAME } = require("hardhat/internal/constants");
 const constant = require("./constant");
 const { TOKEN, ZERO_ADDRESS } = constant;
 
@@ -78,9 +79,46 @@ describe("MockKAP20", function () {
       );
     });
 
-    it("try transfer to blacklist address", async function () {});
+    it("try transfer form non blacklist to blacklist address", async function () {
+      await token.addBlacklist(accounts[1].address);
+      await expect(
+        token.connect(accounts[0]).transfer(accounts[1].address, 1)
+      ).to.be.revertedWith("KAP20Blacklist: to address must not in blacklist");
+    });
 
-    it("try transfer to non blacklist address", async function () {});
+    it("try transfer form blacklist address to non blacklist address", async function () {
+      await token.connect(accounts[0]).transfer(accounts[1].address, 1);
+      await token.addBlacklist(accounts[1].address);
+      await expect(
+        token.connect(accounts[1]).transfer(accounts[0].address, 1)
+      ).to.be.revertedWith(
+        "KAP20Blacklist: form address must not in blacklist"
+      );
+    });
+  });
+
+  describe("MockKAP20Burnable feature", function () {
+    it("try burn", async function () {
+      await token.burn(ethers.utils.parseEther("1"));
+      expect((await token.balanceOf(accounts[0].address)).toString()).to.equal(
+        "99999000000000000000000"
+      );
+    });
+
+    it("try burnForm", async function () {
+      await token.approve(accounts[1].address, 1);
+      await token.connect(accounts[1]).burnFrom(accounts[0].address, 1);
+      expect((await token.balanceOf(accounts[0].address)).toString()).to.equal(
+        "99999999999999999999999"
+      );
+    });
+
+    it("try burnForm exceeds allowance", async function () {
+      await token.approve(accounts[1].address, 1);
+      expect(
+        await token.connect(accounts[1]).burnFrom(accounts[0].address, 10)
+      ).to.be.revertedWith("KAP20: burn amount exceeds allowance");
+    });
   });
 
   describe("MockKAP20Mintable feature", function () {
