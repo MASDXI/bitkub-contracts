@@ -60,7 +60,7 @@ describe("MockKAP20", function () {
       );
     });
 
-    it("try to added exist blacklist account", async function () {
+    it("try to revoke not exist blacklist account", async function () {
       await expect(
         token.revokeBlacklist(accounts[1].address)
       ).to.be.revertedWith("KAP20Blacklist: account must be in blacklist");
@@ -81,5 +81,11 @@ describe("MockKAP20", function () {
     it("try transfer to blacklist address", async function () {});
 
     it("try transfer to non blacklist address", async function () {});
+  });
+
+  describe("MockKAP20Mintable feature", function () {
+    it("mint admin", async function () {});
+
+    it("mint non admin", async function () {});
   });
 });

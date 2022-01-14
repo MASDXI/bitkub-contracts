@@ -57,8 +57,32 @@ describe("KAP20Base", function () {
       expect(await token.acceptedKycLevel()).to.equal(4);
     });
 
-    it("is paused", async function () {
+    it("is unpaused", async function () {
       expect(await token.paused()).to.equal(false);
+    });
+
+    it("set unpaused to paused", async function () {
+      await token.pause();
+      expect(await token.paused()).to.equal(true);
+    });
+
+    it("set paused to unpaused", async function () {
+      await token.pause();
+      await token.unpause();
+      expect(await token.paused()).to.equal(false);
+    });
+
+    it("set unpaused to paused emit event", async function () {
+      await expect(token.pause())
+        .to.emit(token, "Paused")
+        .withArgs(accounts[0].address);
+    });
+
+    it("set paused to unpaused  emit event", async function () {
+      await token.pause();
+      await expect(token.unpause())
+        .to.emit(token, "Unpaused")
+        .withArgs(accounts[0].address);
     });
   });
 });
