@@ -1,6 +1,6 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
-const constant = require("./constant");
+const constant = require("../../constant");
 const { TOKEN, ZERO_ADDRESS } = constant;
 
 describe("MockKAP20", function () {
@@ -8,7 +8,7 @@ describe("MockKAP20", function () {
   let token;
 
   beforeEach(async () => {
-    const KAP20 = await ethers.getContractFactory("MockToken");
+    const KAP20 = await ethers.getContractFactory("MockKAP20");
     accounts = await ethers.getSigners();
     token = await KAP20.deploy(
       TOKEN.projectname,
@@ -114,8 +114,8 @@ describe("MockKAP20", function () {
 
     it("try burnForm exceeds allowance", async function () {
       await token.approve(accounts[1].address, 1);
-      expect(
-        await token.connect(accounts[1]).burnFrom(accounts[0].address, 10)
+      await expect(
+        token.connect(accounts[1]).burnFrom(accounts[0].address, 10)
       ).to.be.revertedWith("KAP20: burn amount exceeds allowance");
     });
   });

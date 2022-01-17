@@ -7,7 +7,7 @@ import "./KAP20/extension/KAP20Capped.sol";
 import "./KAP20/extension/KAP20Mintable.sol";
 import "./KAP20/extension/KAP20Burnable.sol";
 
-contract MockToken is
+contract MockKAP20 is
     KAP20,
     KAP20Blacklist,
     KAP20Capped,

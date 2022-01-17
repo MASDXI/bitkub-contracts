@@ -2,11 +2,15 @@
   "name": "bitkub-contracts",
   "version": "1.0.0",
   "description": "Official smart contract libary on bitkub chain",
-  "keywords": ["solidity","smartcontracts","bitkub"],
+  "keywords": [
+    "solidity",
+    "smartcontracts",
+    "bitkub"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/**/*.git"
-  },    
+  },
   "email": "<development>@bitkub.com",
   "author": "@bitkub.com",
   "license": "MIT",

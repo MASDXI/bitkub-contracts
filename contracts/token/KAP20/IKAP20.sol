@@ -3,15 +3,9 @@ pragma solidity ^0.8.0;
 
 /// @author <author>@bitkub.com
 /// @title Revised Interface of KAP-20 Token Standard
-interface IKAP20 {
-    function name() external view returns (string memory);
+import "./extension/IKAP20Metadata.sol";
 
-    function symbol() external view returns (string memory);
-
-    function decimals() external view returns (uint8);
-
-    function totalSupply() external view returns (uint256);
-
+interface IKAP20 is IKAP20Metadata {
     function balanceOf(address account) external view returns (uint256);
 
     function transfer(address recipient, uint256 amount)
