@@ -27,15 +27,32 @@ abstract contract KAP721Enumerable is KAP721, IKAP721Enumerable {
     /**
      * @dev See {IKAP165-supportsInterface}.
      */
-    function supportsInterface(bytes4 interfaceId) public view virtual override(IKAP165, KAP721) returns (bool) {
-        return interfaceId == type(IKAP721Enumerable).interfaceId || super.supportsInterface(interfaceId);
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        virtual
+        override(IKAP165, KAP721)
+        returns (bool)
+    {
+        return
+            interfaceId == type(IKAP721Enumerable).interfaceId ||
+            super.supportsInterface(interfaceId);
     }
 
     /**
      * @dev See {IKAP721Enumerable-tokenOfOwnerByIndex}.
      */
-    function tokenOfOwnerByIndex(address owner, uint256 index) public view virtual override returns (uint256) {
-        require(index < KAP721.balanceOf(owner), "KAP721Enumerable: owner index out of bounds");
+    function tokenOfOwnerByIndex(address owner, uint256 index)
+        public
+        view
+        virtual
+        override
+        returns (uint256)
+    {
+        require(
+            index < KAP721.balanceOf(owner),
+            "KAP721Enumerable: owner index out of bounds"
+        );
         return _ownedTokens[owner][index];
     }
 
@@ -49,8 +66,17 @@ abstract contract KAP721Enumerable is KAP721, IKAP721Enumerable {
     /**
      * @dev See {IKAP721Enumerable-tokenByIndex}.
      */
-    function tokenByIndex(uint256 index) public view virtual override returns (uint256) {
-        require(index < KAP721Enumerable.totalSupply(), "KAP721Enumerable: global index out of bounds");
+    function tokenByIndex(uint256 index)
+        public
+        view
+        virtual
+        override
+        returns (uint256)
+    {
+        require(
+            index < KAP721Enumerable.totalSupply(),
+            "KAP721Enumerable: global index out of bounds"
+        );
         return _allTokens[index];
     }
 
@@ -116,7 +142,9 @@ abstract contract KAP721Enumerable is KAP721, IKAP721Enumerable {
      * @param from address representing the previous owner of the given token ID
      * @param tokenId uint256 ID of the token to be removed from the tokens list of the given address
      */
-    function _removeTokenFromOwnerEnumeration(address from, uint256 tokenId) private {
+    function _removeTokenFromOwnerEnumeration(address from, uint256 tokenId)
+        private
+    {
         // To prevent a gap in from's tokens array, we store the last token in the index of the token to delete, and
         // then delete the last slot (swap and pop).
 

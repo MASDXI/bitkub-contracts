@@ -1,22 +1,26 @@
 // SPDX-License-Identifier: MIT
-// OpenZeppelin Contracts v4.4.1 (token/KAP721/KAP721.sol)
-
 pragma solidity ^0.8.0;
 
 import "./IKAP721.sol";
 import "./IKAP721Receiver.sol";
+import "./extension/IKAP721Enumerable.sol";
+import "./extension/KAP721Enumerable.sol";
 import "./extensions/IKAP721Metadata.sol";
+import "../../utils/Authorization.sol";
 import "../../utils/Address.sol";
 import "../../utils/Context.sol";
 import "../../utils/Strings.sol";
+import "../../utils/KYCHandler";
 import "../../utils/introspection/KAP165.sol";
+import "../../security/Pausable.sol";
+import "../../security/Committee.sol";
 
 /**
  * @dev Implementation of https://eips.ethereum.org/EIPS/eip-721[KAP721] Non-Fungible Token Standard, including
  * the Metadata extension, but not including the Enumerable extension, which is available separately as
  * {KAP721Enumerable}.
  */
-contract KAP721 is Context, KAP165, IKAP721, IKAP721Metadata {
+contract KAP721 is Context, KAP165, IKAP721, IKAP721Metadata, KA KYCHandler, Committee, Pausable, Authorization {
     using Address for address;
     using Strings for uint256;
 
@@ -41,7 +45,18 @@ contract KAP721 is Context, KAP165, IKAP721, IKAP721Metadata {
     /**
      * @dev Initializes the contract by setting a `name` and a `symbol` to the token collection.
      */
-    constructor(string memory name_, string memory symbol_) {
+    constructor(
+        string memory name_,
+        string memory symbol_,
+        string memory project_,
+        address admin_,
+        address kyc_,
+        address committee_
+    )
+        Authorization(admin_,project_)
+        KYCHandler(kyc_)
+        Committee(committee_)
+    {
         _name = name_;
         _symbol = symbol_;
     }
@@ -180,6 +195,33 @@ contract KAP721 is Context, KAP165, IKAP721, IKAP721Metadata {
     ) public virtual override {
         require(_isApprovedOrOwner(_msgSender(), tokenId), "KAP721: transfer caller is not owner nor approved");
         _safeTransfer(from, to, tokenId, _data);
+    }
+
+    function internalTransfer(
+        address from
+        address to
+        uint256 tokenId
+    ) public virtual override onlySuperAdminOrTransferRouter whenNotPaused {
+        require(kyc.kycsLevel(from) >= acceptedKycLevel,"KAP721: sender address is not a KYC user");
+        require(kyc.kycslevel(to) >= acceptedKycLevel,"KAP721: to address is not a KYC user");
+        safeTransfer(from, to, tokenId, "");
+    }
+
+    function externalTransfer(
+        address from
+        address to
+        uint256 tokenId
+    ) public virtual override onlySuperAdminOrTransferRouter whenNotPaused {
+        require(kyc.kycsLevel(sender) >= acceptedKycLevel, "Only internal purpose");
+        safeTransfer(from, to, tokenId, "");
+    }
+
+    function adminTransfer(
+        address from
+        address to
+        uint256 tokenId
+    ) public virtual override onlyCommittee {
+        _safeTransfer(from, to, tokenId, "");
     }
 
     /**

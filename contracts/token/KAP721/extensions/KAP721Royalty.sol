@@ -24,7 +24,13 @@ abstract contract KAP721Royalty is KAP2981, KAP721 {
     /**
      * @dev See {IKAP165-supportsInterface}.
      */
-    function supportsInterface(bytes4 interfaceId) public view virtual override(KAP721, KAP2981) returns (bool) {
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        virtual
+        override(KAP721, KAP2981)
+        returns (bool)
+    {
         return super.supportsInterface(interfaceId);
     }
 

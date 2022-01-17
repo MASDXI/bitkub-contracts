@@ -39,7 +39,13 @@ contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI {
     /**
      * @dev See {IKAP165-supportsInterface}.
      */
-    function supportsInterface(bytes4 interfaceId) public view virtual override(KAP165, IKAP165) returns (bool) {
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        virtual
+        override(KAP165, IKAP165)
+        returns (bool)
+    {
         return
             interfaceId == type(IKAP1155).interfaceId ||
             interfaceId == type(IKAP1155MetadataURI).interfaceId ||
@@ -67,8 +73,17 @@ contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI {
      *
      * - `account` cannot be the zero address.
      */
-    function balanceOf(address account, uint256 id) public view virtual override returns (uint256) {
-        require(account != address(0), "KAP1155: balance query for the zero address");
+    function balanceOf(address account, uint256 id)
+        public
+        view
+        virtual
+        override
+        returns (uint256)
+    {
+        require(
+            account != address(0),
+            "KAP1155: balance query for the zero address"
+        );
         return _balances[id][account];
     }
 
@@ -86,7 +101,10 @@ contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI {
         override
         returns (uint256[] memory)
     {
-        require(accounts.length == ids.length, "KAP1155: accounts and ids length mismatch");
+        require(
+            accounts.length == ids.length,
+            "KAP1155: accounts and ids length mismatch"
+        );
 
         uint256[] memory batchBalances = new uint256[](accounts.length);
 
@@ -100,14 +118,24 @@ contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI {
     /**
      * @dev See {IKAP1155-setApprovalForAll}.
      */
-    function setApprovalForAll(address operator, bool approved) public virtual override {
+    function setApprovalForAll(address operator, bool approved)
+        public
+        virtual
+        override
+    {
         _setApprovalForAll(_msgSender(), operator, approved);
     }
 
     /**
      * @dev See {IKAP1155-isApprovedForAll}.
      */
-    function isApprovedForAll(address account, address operator) public view virtual override returns (bool) {
+    function isApprovedForAll(address account, address operator)
+        public
+        view
+        virtual
+        override
+        returns (bool)
+    {
         return _operatorApprovals[account][operator];
     }
 
@@ -168,10 +196,20 @@ contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI {
 
         address operator = _msgSender();
 
-        _beforeTokenTransfer(operator, from, to, _asSingletonArray(id), _asSingletonArray(amount), data);
+        _beforeTokenTransfer(
+            operator,
+            from,
+            to,
+            _asSingletonArray(id),
+            _asSingletonArray(amount),
+            data
+        );
 
         uint256 fromBalance = _balances[id][from];
-        require(fromBalance >= amount, "KAP1155: insufficient balance for transfer");
+        require(
+            fromBalance >= amount,
+            "KAP1155: insufficient balance for transfer"
+        );
         unchecked {
             _balances[id][from] = fromBalance - amount;
         }
@@ -199,7 +237,10 @@ contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI {
         uint256[] memory amounts,
         bytes memory data
     ) internal virtual {
-        require(ids.length == amounts.length, "KAP1155: ids and amounts length mismatch");
+        require(
+            ids.length == amounts.length,
+            "KAP1155: ids and amounts length mismatch"
+        );
         require(to != address(0), "KAP1155: transfer to the zero address");
 
         address operator = _msgSender();
@@ -211,7 +252,10 @@ contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI {
             uint256 amount = amounts[i];
 
             uint256 fromBalance = _balances[id][from];
-            require(fromBalance >= amount, "KAP1155: insufficient balance for transfer");
+            require(
+                fromBalance >= amount,
+                "KAP1155: insufficient balance for transfer"
+            );
             unchecked {
                 _balances[id][from] = fromBalance - amount;
             }
@@ -220,7 +264,14 @@ contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI {
 
         emit TransferBatch(operator, from, to, ids, amounts);
 
-        _doSafeBatchTransferAcceptanceCheck(operator, from, to, ids, amounts, data);
+        _doSafeBatchTransferAcceptanceCheck(
+            operator,
+            from,
+            to,
+            ids,
+            amounts,
+            data
+        );
     }
 
     /**
@@ -267,12 +318,26 @@ contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI {
 
         address operator = _msgSender();
 
-        _beforeTokenTransfer(operator, address(0), to, _asSingletonArray(id), _asSingletonArray(amount), data);
+        _beforeTokenTransfer(
+            operator,
+            address(0),
+            to,
+            _asSingletonArray(id),
+            _asSingletonArray(amount),
+            data
+        );
 
         _balances[id][to] += amount;
         emit TransferSingle(operator, address(0), to, id, amount);
 
-        _doSafeTransferAcceptanceCheck(operator, address(0), to, id, amount, data);
+        _doSafeTransferAcceptanceCheck(
+            operator,
+            address(0),
+            to,
+            id,
+            amount,
+            data
+        );
     }
 
     /**
@@ -291,7 +356,10 @@ contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI {
         bytes memory data
     ) internal virtual {
         require(to != address(0), "KAP1155: mint to the zero address");
-        require(ids.length == amounts.length, "KAP1155: ids and amounts length mismatch");
+        require(
+            ids.length == amounts.length,
+            "KAP1155: ids and amounts length mismatch"
+        );
 
         address operator = _msgSender();
 
@@ -303,7 +371,14 @@ contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI {
 
         emit TransferBatch(operator, address(0), to, ids, amounts);
 
-        _doSafeBatchTransferAcceptanceCheck(operator, address(0), to, ids, amounts, data);
+        _doSafeBatchTransferAcceptanceCheck(
+            operator,
+            address(0),
+            to,
+            ids,
+            amounts,
+            data
+        );
     }
 
     /**
@@ -323,7 +398,14 @@ contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI {
 
         address operator = _msgSender();
 
-        _beforeTokenTransfer(operator, from, address(0), _asSingletonArray(id), _asSingletonArray(amount), "");
+        _beforeTokenTransfer(
+            operator,
+            from,
+            address(0),
+            _asSingletonArray(id),
+            _asSingletonArray(amount),
+            ""
+        );
 
         uint256 fromBalance = _balances[id][from];
         require(fromBalance >= amount, "KAP1155: burn amount exceeds balance");
@@ -347,7 +429,10 @@ contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI {
         uint256[] memory amounts
     ) internal virtual {
         require(from != address(0), "KAP1155: burn from the zero address");
-        require(ids.length == amounts.length, "KAP1155: ids and amounts length mismatch");
+        require(
+            ids.length == amounts.length,
+            "KAP1155: ids and amounts length mismatch"
+        );
 
         address operator = _msgSender();
 
@@ -358,7 +443,10 @@ contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI {
             uint256 amount = amounts[i];
 
             uint256 fromBalance = _balances[id][from];
-            require(fromBalance >= amount, "KAP1155: burn amount exceeds balance");
+            require(
+                fromBalance >= amount,
+                "KAP1155: burn amount exceeds balance"
+            );
             unchecked {
                 _balances[id][from] = fromBalance - amount;
             }
@@ -420,7 +508,15 @@ contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI {
         bytes memory data
     ) private {
         if (to.isContract()) {
-            try IKAP1155Receiver(to).onKAP1155Received(operator, from, id, amount, data) returns (bytes4 response) {
+            try
+                IKAP1155Receiver(to).onKAP1155Received(
+                    operator,
+                    from,
+                    id,
+                    amount,
+                    data
+                )
+            returns (bytes4 response) {
                 if (response != IKAP1155Receiver.onKAP1155Received.selector) {
                     revert("KAP1155: KAP1155Receiver rejected tokens");
                 }
@@ -441,10 +537,18 @@ contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI {
         bytes memory data
     ) private {
         if (to.isContract()) {
-            try IKAP1155Receiver(to).onKAP1155BatchReceived(operator, from, ids, amounts, data) returns (
-                bytes4 response
-            ) {
-                if (response != IKAP1155Receiver.onKAP1155BatchReceived.selector) {
+            try
+                IKAP1155Receiver(to).onKAP1155BatchReceived(
+                    operator,
+                    from,
+                    ids,
+                    amounts,
+                    data
+                )
+            returns (bytes4 response) {
+                if (
+                    response != IKAP1155Receiver.onKAP1155BatchReceived.selector
+                ) {
                     revert("KAP1155: KAP1155Receiver rejected tokens");
                 }
             } catch Error(string memory reason) {
@@ -455,7 +559,11 @@ contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI {
         }
     }
 
-    function _asSingletonArray(uint256 element) private pure returns (uint256[] memory) {
+    function _asSingletonArray(uint256 element)
+        private
+        pure
+        returns (uint256[] memory)
+    {
         uint256[] memory array = new uint256[](1);
         array[0] = element;
 

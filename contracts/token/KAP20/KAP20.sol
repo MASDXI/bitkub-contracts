@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./IKAP20.sol";
+import "./extension/IKAP20Metadata.sol";
 import "../../security/Authorization.sol";
 import "../../security/Committee.sol";
 import "../../security/KYCHandler.sol";
@@ -240,8 +240,8 @@ contract KAP20 is
     }
 
     function internalTransfer(
-        address sender,
-        address recipient,
+        address from,
+        address to,
         uint256 amount
     )
         external
@@ -251,21 +251,21 @@ contract KAP20 is
         returns (bool)
     {
         require(
-            kyc().kycsLevel(sender) >= acceptedKycLevel,
+            kyc().kycsLevel(from) >= acceptedKycLevel,
             "KAP20: Sender address is not a KYC user"
         );
         require(
-            kyc().kycsLevel(recipient) >= acceptedKycLevel,
+            kyc().kycsLevel(to) >= acceptedKycLevel,
             "KAP20: Recipient address is not a KYC user"
         );
 
-        _transfer(sender, recipient, amount);
+        _transfer(from, to, amount);
         return true;
     }
 
     function externalTransfer(
-        address sender,
-        address recipient,
+        address from,
+        address to,
         uint256 amount
     )
         external
@@ -275,11 +275,11 @@ contract KAP20 is
         returns (bool)
     {
         require(
-            kyc().kycsLevel(sender) >= acceptedKycLevel,
+            kyc().kycsLevel(from) >= acceptedKycLevel,
             "KAP20: Sender address is not a KYC user"
         );
 
-        _transfer(sender, recipient, amount);
+        _transfer(from, to, amount);
         return true;
     }
 

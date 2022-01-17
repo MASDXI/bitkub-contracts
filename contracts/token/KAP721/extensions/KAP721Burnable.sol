@@ -20,7 +20,10 @@ abstract contract KAP721Burnable is Context, KAP721 {
      */
     function burn(uint256 tokenId) public virtual {
         //solhint-disable-next-line max-line-length
-        require(_isApprovedOrOwner(_msgSender(), tokenId), "KAP721Burnable: caller is not owner nor approved");
+        require(
+            _isApprovedOrOwner(_msgSender(), tokenId),
+            "KAP721Burnable: caller is not owner nor approved"
+        );
         _burn(tokenId);
     }
 }

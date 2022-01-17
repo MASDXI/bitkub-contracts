@@ -20,8 +20,16 @@ abstract contract KAP165Storage is KAP165 {
     /**
      * @dev See {IKAP165-supportsInterface}.
      */
-    function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
-        return super.supportsInterface(interfaceId) || _supportedInterfaces[interfaceId];
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        virtual
+        override
+        returns (bool)
+    {
+        return
+            super.supportsInterface(interfaceId) ||
+            _supportedInterfaces[interfaceId];
     }
 
     /**

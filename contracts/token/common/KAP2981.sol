@@ -3,7 +3,7 @@
 
 pragma solidity ^0.8.0;
 
-import "../../interfaces/IKAP2981.sol";
+import "./IKAP2981.sol";
 import "../../utils/introspection/KAP165.sol";
 
 /**
@@ -33,21 +33,35 @@ abstract contract KAP2981 is IKAP2981, KAP165 {
     /**
      * @dev See {IKAP165-supportsInterface}.
      */
-    function supportsInterface(bytes4 interfaceId) public view virtual override(IKAP165, KAP165) returns (bool) {
-        return interfaceId == type(IKAP2981).interfaceId || super.supportsInterface(interfaceId);
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        virtual
+        override(IKAP165, KAP165)
+        returns (bool)
+    {
+        return
+            interfaceId == type(IKAP2981).interfaceId ||
+            super.supportsInterface(interfaceId);
     }
 
     /**
      * @inheritdoc IKAP2981
      */
-    function royaltyInfo(uint256 _tokenId, uint256 _salePrice) external view override returns (address, uint256) {
+    function royaltyInfo(uint256 _tokenId, uint256 _salePrice)
+        external
+        view
+        override
+        returns (address, uint256)
+    {
         RoyaltyInfo memory royalty = _tokenRoyaltyInfo[_tokenId];
 
         if (royalty.receiver == address(0)) {
             royalty = _defaultRoyaltyInfo;
         }
 
-        uint256 royaltyAmount = (_salePrice * royalty.royaltyFraction) / _feeDenominator();
+        uint256 royaltyAmount = (_salePrice * royalty.royaltyFraction) /
+            _feeDenominator();
 
         return (royalty.receiver, royaltyAmount);
     }
@@ -69,8 +83,14 @@ abstract contract KAP2981 is IKAP2981, KAP165 {
      * - `receiver` cannot be the zero address.
      * - `feeNumerator` cannot be greater than the fee denominator.
      */
-    function _setDefaultRoyalty(address receiver, uint96 feeNumerator) internal virtual {
-        require(feeNumerator <= _feeDenominator(), "KAP2981: royalty fee will exceed salePrice");
+    function _setDefaultRoyalty(address receiver, uint96 feeNumerator)
+        internal
+        virtual
+    {
+        require(
+            feeNumerator <= _feeDenominator(),
+            "KAP2981: royalty fee will exceed salePrice"
+        );
         require(receiver != address(0), "KAP2981: invalid receiver");
 
         _defaultRoyaltyInfo = RoyaltyInfo(receiver, feeNumerator);
@@ -97,7 +117,10 @@ abstract contract KAP2981 is IKAP2981, KAP165 {
         address receiver,
         uint96 feeNumerator
     ) internal virtual {
-        require(feeNumerator <= _feeDenominator(), "KAP2981: royalty fee will exceed salePrice");
+        require(
+            feeNumerator <= _feeDenominator(),
+            "KAP2981: royalty fee will exceed salePrice"
+        );
         require(receiver != address(0), "KAP2981: Invalid parameters");
 
         _tokenRoyaltyInfo[tokenId] = RoyaltyInfo(receiver, feeNumerator);

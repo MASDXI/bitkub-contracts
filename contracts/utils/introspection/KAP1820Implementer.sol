@@ -14,21 +14,22 @@ import "./IKAP1820Implementer.sol";
  * registration to be complete.
  */
 contract KAP1820Implementer is IKAP1820Implementer {
-    bytes32 private constant _KAP1820_ACCEPT_MAGIC = keccak256("KAP1820_ACCEPT_MAGIC");
+    bytes32 private constant _KAP1820_ACCEPT_MAGIC =
+        keccak256("KAP1820_ACCEPT_MAGIC");
 
     mapping(bytes32 => mapping(address => bool)) private _supportedInterfaces;
 
     /**
      * @dev See {IKAP1820Implementer-canImplementInterfaceForAddress}.
      */
-    function canImplementInterfaceForAddress(bytes32 interfaceHash, address account)
-        public
-        view
-        virtual
-        override
-        returns (bytes32)
-    {
-        return _supportedInterfaces[interfaceHash][account] ? _KAP1820_ACCEPT_MAGIC : bytes32(0x00);
+    function canImplementInterfaceForAddress(
+        bytes32 interfaceHash,
+        address account
+    ) public view virtual override returns (bytes32) {
+        return
+            _supportedInterfaces[interfaceHash][account]
+                ? _KAP1820_ACCEPT_MAGIC
+                : bytes32(0x00);
     }
 
     /**
@@ -38,7 +39,10 @@ contract KAP1820Implementer is IKAP1820Implementer {
      * See {IKAP1820Registry-setInterfaceImplementer} and
      * {IKAP1820Registry-interfaceHash}.
      */
-    function _registerInterfaceForAddress(bytes32 interfaceHash, address account) internal virtual {
+    function _registerInterfaceForAddress(
+        bytes32 interfaceHash,
+        address account
+    ) internal virtual {
         _supportedInterfaces[interfaceHash][account] = true;
     }
 }

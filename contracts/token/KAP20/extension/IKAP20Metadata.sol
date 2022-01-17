@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.5.0 <0.8.0;
+pragma solidity ^0.8.0;
 
-contract IKAP20Metadata {
-    function name() external view returns (string);
+import "../IKAP20.sol";
 
-    function symbol() external view returns (string);
+interface IKAP20Metadata is IKAP20 {
+    function name() external view returns (string memory);
+
+    function symbol() external view returns (string memory);
 
     function decimals() external view returns (uint8);
-    
-    function totalSupply() external view returns (uint256)
+
+    function totalSupply() external view returns (uint256);
 }

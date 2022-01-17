@@ -13,7 +13,15 @@ abstract contract KAP1155Receiver is KAP165, IKAP1155Receiver {
     /**
      * @dev See {IKAP165-supportsInterface}.
      */
-    function supportsInterface(bytes4 interfaceId) public view virtual override(KAP165, IKAP165) returns (bool) {
-        return interfaceId == type(IKAP1155Receiver).interfaceId || super.supportsInterface(interfaceId);
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        virtual
+        override(KAP165, IKAP165)
+        returns (bool)
+    {
+        return
+            interfaceId == type(IKAP1155Receiver).interfaceId ||
+            super.supportsInterface(interfaceId);
     }
 }

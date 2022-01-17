@@ -9,12 +9,15 @@ pragma solidity ^0.8.0;
  * Used by contracts that will be registered as implementers in the
  * {IKAP820Registry}.
  */
-interface IKAP820Implementer {
+interface IKAP1820Implementer {
     /**
      * @dev Returns a special value (`KAP820_ACCEPT_MAGIC`) if this contract
      * implements `interfaceHash` for `account`.
      *
      * See {IKAP820Registry-setInterfaceImplementer}.
      */
-    function canImplementInterfaceForAddress(bytes32 interfaceHash, address account) external view returns (bytes32);
+    function canImplementInterfaceForAddress(
+        bytes32 interfaceHash,
+        address account
+    ) external view returns (bytes32);
 }

@@ -12,7 +12,7 @@ pragma solidity ^0.8.0;
  *
  * For an implementation, see {KAP65}.
  */
-interface IKAP65 {
+interface IKAP165 {
     /**
      * @dev Returns true if this contract implements the interface defined by
      * `interfaceId`. See the corresponding

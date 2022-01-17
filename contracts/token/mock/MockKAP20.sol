@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./KAP20/KAP20.sol";
-import "./KAP20/extension/KAP20Blacklist.sol";
-import "./KAP20/extension/KAP20Capped.sol";
-import "./KAP20/extension/KAP20Mintable.sol";
-import "./KAP20/extension/KAP20Burnable.sol";
+import "../KAP20/KAP20.sol";
+import "../KAP20/extension/KAP20Blacklist.sol";
+import "../KAP20/extension/KAP20Capped.sol";
+import "../KAP20/extension/KAP20Mintable.sol";
+import "../KAP20/extension/KAP20Burnable.sol";
 
 contract MockKAP20 is
     KAP20,
@@ -39,7 +39,7 @@ contract MockKAP20 is
         )
         KAP20Capped(hardcap_)
     {
-        _mint(_msgSender(),100000*(10**decimals()));
+        _mint(_msgSender(), 100000 * (10**decimals()));
     }
 
     function _beforeTokenTransfer(
