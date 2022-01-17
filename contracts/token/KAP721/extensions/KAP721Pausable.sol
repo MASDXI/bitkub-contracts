@@ -4,7 +4,6 @@
 pragma solidity ^0.8.0;
 
 import "../KAP721.sol";
-import "../../../security/Pausable.sol";
 
 /**
  * @dev KAP721 token with pausable token transfers, minting and burning.
@@ -13,7 +12,7 @@ import "../../../security/Pausable.sol";
  * period, or having an emergency switch for freezing all token transfers in the
  * event of a large bug.
  */
-abstract contract KAP721Pausable is KAP721, Pausable {
+abstract contract KAP721Pausable is KAP721 {
     /**
      * @dev See {KAP721-_beforeTokenTransfer}.
      *

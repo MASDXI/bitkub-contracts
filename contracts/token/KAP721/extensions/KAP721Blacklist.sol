@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./IKAP721Blacklist";
+import "./IKAP721Blacklist.sol";
 import "../KAP721.sol";
 
 abstract contract KAP721Blacklist is KAP721, IKAP721Blacklist {

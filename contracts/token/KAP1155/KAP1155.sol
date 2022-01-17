@@ -6,9 +6,15 @@ pragma solidity ^0.8.0;
 import "./IKAP1155.sol";
 import "./IKAP1155Receiver.sol";
 import "./extensions/IKAP1155MetadataURI.sol";
+import "../../security/Authorization.sol";
+import "../../security/Committee.sol";
+import "../../security/Pausable.sol";
+import "../../security/KYCHandler.sol";
 import "../../utils/Address.sol";
 import "../../utils/Context.sol";
 import "../../utils/introspection/KAP165.sol";
+
+
 
 /**
  * @dev Implementation of the basic standard multi-token.
@@ -17,7 +23,7 @@ import "../../utils/introspection/KAP165.sol";
  *
  * _Available since v3.1._
  */
-contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI {
+contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI, KYCHandler, Authorization, Committee, Pausable {
     using Address for address;
 
     // Mapping from token ID to account balances
@@ -32,7 +38,18 @@ contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI {
     /**
      * @dev See {_setURI}.
      */
-    constructor(string memory uri_) {
+    constructor(
+        string memory uri_,
+        string memory project_,
+        address admin_,
+        address committee_,
+        address kyc_,
+        uint8 acceptedKycLevel_
+    )   
+        Authorization(project_, admin_)
+        Committee(committee_)
+        KYCHandler(kyc_, acceptedKycLevel_)
+    {
         _setURI(uri_);
     }
 

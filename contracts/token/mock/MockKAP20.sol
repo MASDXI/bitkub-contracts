@@ -2,10 +2,10 @@
 pragma solidity ^0.8.0;
 
 import "../KAP20/KAP20.sol";
-import "../KAP20/extension/KAP20Blacklist.sol";
-import "../KAP20/extension/KAP20Capped.sol";
-import "../KAP20/extension/KAP20Mintable.sol";
-import "../KAP20/extension/KAP20Burnable.sol";
+import "../KAP20/extensions/KAP20Blacklist.sol";
+import "../KAP20/extensions/KAP20Capped.sol";
+import "../KAP20/extensions/KAP20Mintable.sol";
+import "../KAP20/extensions/KAP20Burnable.sol";
 
 contract MockKAP20 is
     KAP20,

@@ -4,7 +4,6 @@
 pragma solidity ^0.8.0;
 
 import "../KAP1155.sol";
-import "../../../security/Pausable.sol";
 
 /**
  * @dev KAP1155 token with pausable token transfers, minting and burning.
@@ -15,7 +14,7 @@ import "../../../security/Pausable.sol";
  *
  * _Available since v3.1._
  */
-abstract contract KAP1155Pausable is KAP1155, Pausable {
+abstract contract KAP1155Pausable is KAP1155 {
     /**
      * @dev See {KAP1155-_beforeTokenTransfer}.
      *

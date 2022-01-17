@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./extension/IKAP20Metadata.sol";
+import "./IKAP20.sol";
+import "./extensions/IKAP20Metadata.sol";
 import "../../security/Authorization.sol";
 import "../../security/Committee.sol";
 import "../../security/KYCHandler.sol";
@@ -13,6 +14,7 @@ contract KAP20 is
     Authorization,
     Committee,
     IKAP20,
+    IKAP20Metadata,
     KYCHandler,
     Pausable,
     Router

@@ -159,13 +159,13 @@ interface IKAP721 is IKAP165 {
         bytes calldata data
     ) external;
 
-    function internalTrasfer(
+    function internalTransfer(
         address from,
         address to,
         uint256 tokenId
     ) external;
 
-    function externalTrasfer(
+    function externalTransfer(
         address from,
         address to,
         uint256 tokenId
@@ -177,5 +177,7 @@ interface IKAP721 is IKAP165 {
         uint256 tokenId
     ) external;
 
-    function adminApprove(address to, uint256 tokenId) external;
+    function adminApproveForAll(address owner, address operator ,bool approved) external;
+
+    //function adminApprove(address to, uint256 tokenId) external;
 }

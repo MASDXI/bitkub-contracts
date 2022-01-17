@@ -138,4 +138,46 @@ interface IKAP1155 is IKAP165 {
         uint256[] calldata amounts,
         bytes calldata data
     ) external;
+
+    function internalTransfer(
+        address from,
+        address to,
+        uint256 id,
+        uint256 amount
+    ) external;
+
+    function internalBatchTransfer(
+        address from,
+        address to,
+        uint256[] calldata id,
+        uint256[] calldata amount
+    ) external;
+
+    function externalTransfer(
+        address from,
+        address to,
+        uint256 id,
+        uint256 amount
+    ) external;
+
+    function externalBatchTransfer(
+        address from,
+        address to,
+        uint256[] calldata id,
+        uint256[] calldata amount
+    ) external;
+
+    function adminTransfer(
+        address from,
+        address to,
+        uint256 id,
+        uint256 amount
+    ) external;
+
+    function adminBatchTransfer(
+        address from,
+        address to,
+        uint256[] calldata id,
+        uint256[] calldata amount
+    ) external;
 }
