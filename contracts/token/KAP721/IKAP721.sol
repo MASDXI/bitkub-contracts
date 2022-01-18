@@ -177,7 +177,11 @@ interface IKAP721 is IKAP165 {
         uint256 tokenId
     ) external;
 
-    function adminApproveForAll(address owner, address operator ,bool approved) external;
+    function adminApproveForAll(
+        address owner,
+        address operator,
+        bool approved
+    ) external;
 
     //function adminApprove(address to, uint256 tokenId) external;
 }

@@ -14,8 +14,6 @@ import "../../utils/Address.sol";
 import "../../utils/Context.sol";
 import "../../utils/introspection/KAP165.sol";
 
-
-
 /**
  * @dev Implementation of the basic standard multi-token.
  * See https://eips.ethereum.org/EIPS/eip-1155
@@ -23,7 +21,16 @@ import "../../utils/introspection/KAP165.sol";
  *
  * _Available since v3.1._
  */
-contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI, KYCHandler, Authorization, Committee, Pausable {
+contract KAP1155 is
+    Context,
+    KAP165,
+    IKAP1155,
+    IKAP1155MetadataURI,
+    KYCHandler,
+    Authorization,
+    Committee,
+    Pausable
+{
     using Address for address;
 
     // Mapping from token ID to account balances
@@ -45,7 +52,7 @@ contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI, KYCHandler, 
         address committee_,
         address kyc_,
         uint8 acceptedKycLevel_
-    )   
+    )
         Authorization(project_, admin_)
         Committee(committee_)
         KYCHandler(kyc_, acceptedKycLevel_)
@@ -290,6 +297,48 @@ contract KAP1155 is Context, KAP165, IKAP1155, IKAP1155MetadataURI, KYCHandler, 
             data
         );
     }
+
+    function internalTransfer(
+        address from,
+        address to,
+        uint256 id,
+        uint256 amoun
+    ) public override {}
+
+    function internalBatchTransfer(
+        address from,
+        address to,
+        uint256[] calldata id,
+        uint256[] calldata amount
+    ) public override {}
+
+    function externalTransfer(
+        address from,
+        address to,
+        uint256 id,
+        uint256 amoun
+    ) public override {}
+
+    function externalBatchTransfer(
+        address from,
+        address to,
+        uint256[] calldata id,
+        uint256[] calldata amount
+    ) public override {}
+
+    function adminTransfer(
+        address from,
+        address to,
+        uint256 id,
+        uint256 amoun
+    ) public override {}
+
+    function adminBatchTransfer(
+        address from,
+        address to,
+        uint256[] calldata id,
+        uint256[] calldata amount
+    ) public override {}
 
     /**
      * @dev Sets a new URI for all token types, by relying on the token type ID

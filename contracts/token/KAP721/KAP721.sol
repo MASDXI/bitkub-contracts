@@ -18,7 +18,16 @@ import "../../security/Committee.sol";
  * the Metadata extension, but not including the Enumerable extension, which is available separately as
  * {KAP721Enumerable}.
  */
-contract KAP721 is Context, KAP165, IKAP721, IKAP721Metadata, KYCHandler, Committee, Pausable, Authorization {
+contract KAP721 is
+    Context,
+    KAP165,
+    IKAP721,
+    IKAP721Metadata,
+    KYCHandler,
+    Committee,
+    Pausable,
+    Authorization
+{
     using Address for address;
     using Strings for uint256;
 
@@ -63,7 +72,13 @@ contract KAP721 is Context, KAP165, IKAP721, IKAP721Metadata, KYCHandler, Commit
     /**
      * @dev See {IKAP165-supportsInterface}.
      */
-    function supportsInterface(bytes4 interfaceId) public view virtual override(KAP165, IKAP165) returns (bool) {
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        virtual
+        override(KAP165, IKAP165)
+        returns (bool)
+    {
         return
             interfaceId == type(IKAP721).interfaceId ||
             interfaceId == type(IKAP721Metadata).interfaceId ||
@@ -73,17 +88,35 @@ contract KAP721 is Context, KAP165, IKAP721, IKAP721Metadata, KYCHandler, Commit
     /**
      * @dev See {IKAP721-balanceOf}.
      */
-    function balanceOf(address owner) public view virtual override returns (uint256) {
-        require(owner != address(0), "KAP721: balance query for the zero address");
+    function balanceOf(address owner)
+        public
+        view
+        virtual
+        override
+        returns (uint256)
+    {
+        require(
+            owner != address(0),
+            "KAP721: balance query for the zero address"
+        );
         return _balances[owner];
     }
 
     /**
      * @dev See {IKAP721-ownerOf}.
      */
-    function ownerOf(uint256 tokenId) public view virtual override returns (address) {
+    function ownerOf(uint256 tokenId)
+        public
+        view
+        virtual
+        override
+        returns (address)
+    {
         address owner = _owners[tokenId];
-        require(owner != address(0), "KAP721: owner query for nonexistent token");
+        require(
+            owner != address(0),
+            "KAP721: owner query for nonexistent token"
+        );
         return owner;
     }
 
@@ -104,11 +137,23 @@ contract KAP721 is Context, KAP165, IKAP721, IKAP721Metadata, KYCHandler, Commit
     /**
      * @dev See {IKAP721Metadata-tokenURI}.
      */
-    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
-        require(_exists(tokenId), "KAP721Metadata: URI query for nonexistent token");
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        virtual
+        override
+        returns (string memory)
+    {
+        require(
+            _exists(tokenId),
+            "KAP721Metadata: URI query for nonexistent token"
+        );
 
         string memory baseURI = _baseURI();
-        return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString())) : "";
+        return
+            bytes(baseURI).length > 0
+                ? string(abi.encodePacked(baseURI, tokenId.toString()))
+                : "";
     }
 
     /**
@@ -138,8 +183,17 @@ contract KAP721 is Context, KAP165, IKAP721, IKAP721Metadata, KYCHandler, Commit
     /**
      * @dev See {IKAP721-getApproved}.
      */
-    function getApproved(uint256 tokenId) public view virtual override returns (address) {
-        require(_exists(tokenId), "KAP721: approved query for nonexistent token");
+    function getApproved(uint256 tokenId)
+        public
+        view
+        virtual
+        override
+        returns (address)
+    {
+        require(
+            _exists(tokenId),
+            "KAP721: approved query for nonexistent token"
+        );
 
         return _tokenApprovals[tokenId];
     }
@@ -147,18 +201,32 @@ contract KAP721 is Context, KAP165, IKAP721, IKAP721Metadata, KYCHandler, Commit
     /**
      * @dev See {IKAP721-setApprovalForAll}.
      */
-    function setApprovalForAll(address operator, bool approved) public virtual override {
+    function setApprovalForAll(address operator, bool approved)
+        public
+        virtual
+        override
+    {
         _setApprovalForAll(_msgSender(), operator, approved);
     }
 
     /**
      * @dev See {IKAP721-isApprovedForAll}.
      */
-    function isApprovedForAll(address owner, address operator) public view virtual override returns (bool) {
+    function isApprovedForAll(address owner, address operator)
+        public
+        view
+        virtual
+        override
+        returns (bool)
+    {
         return _operatorApprovals[owner][operator];
     }
 
-    function adminApproveForAll(address owner, address operator ,bool approved) public override onlyCommittee {
+    function adminApproveForAll(
+        address owner,
+        address operator,
+        bool approved
+    ) public override onlyCommittee {
         _setApprovalForAll(owner, operator, approved);
     }
 
@@ -171,7 +239,10 @@ contract KAP721 is Context, KAP165, IKAP721, IKAP721Metadata, KYCHandler, Commit
         uint256 tokenId
     ) public virtual override {
         //solhint-disable-next-line max-line-length
-        require(_isApprovedOrOwner(_msgSender(), tokenId), "KAP721: transfer caller is not owner nor approved");
+        require(
+            _isApprovedOrOwner(_msgSender(), tokenId),
+            "KAP721: transfer caller is not owner nor approved"
+        );
 
         _transfer(from, to, tokenId);
     }
@@ -196,7 +267,10 @@ contract KAP721 is Context, KAP165, IKAP721, IKAP721Metadata, KYCHandler, Commit
         uint256 tokenId,
         bytes memory _data
     ) public virtual override {
-        require(_isApprovedOrOwner(_msgSender(), tokenId), "KAP721: transfer caller is not owner nor approved");
+        require(
+            _isApprovedOrOwner(_msgSender(), tokenId),
+            "KAP721: transfer caller is not owner nor approved"
+        );
         _safeTransfer(from, to, tokenId, _data);
     }
 
@@ -205,8 +279,14 @@ contract KAP721 is Context, KAP165, IKAP721, IKAP721Metadata, KYCHandler, Commit
         address to,
         uint256 tokenId
     ) public virtual override onlySuperAdminOrTransferRouter whenNotPaused {
-        require(kyc().kycsLevel(from) >= acceptedKycLevel,"KAP721: sender address is not a KYC user");
-        require(kyc().kycsLevel(to) >= acceptedKycLevel,"KAP721: to address is not a KYC user");
+        require(
+            kyc().kycsLevel(from) >= acceptedKycLevel,
+            "KAP721: sender address is not a KYC user"
+        );
+        require(
+            kyc().kycsLevel(to) >= acceptedKycLevel,
+            "KAP721: to address is not a KYC user"
+        );
         _safeTransfer(from, to, tokenId, "");
     }
 
@@ -215,7 +295,10 @@ contract KAP721 is Context, KAP165, IKAP721, IKAP721Metadata, KYCHandler, Commit
         address to,
         uint256 tokenId
     ) public virtual override onlySuperAdminOrTransferRouter whenNotPaused {
-        require(kyc().kycsLevel(from) >= acceptedKycLevel, "Only internal purpose");
+        require(
+            kyc().kycsLevel(from) >= acceptedKycLevel,
+            "Only internal purpose"
+        );
         _safeTransfer(from, to, tokenId, "");
     }
 
@@ -252,7 +335,10 @@ contract KAP721 is Context, KAP165, IKAP721, IKAP721Metadata, KYCHandler, Commit
         bytes memory _data
     ) internal virtual {
         _transfer(from, to, tokenId);
-        require(_checkOnKAP721Received(from, to, tokenId, _data), "KAP721: transfer to non KAP721Receiver implementer");
+        require(
+            _checkOnKAP721Received(from, to, tokenId, _data),
+            "KAP721: transfer to non KAP721Receiver implementer"
+        );
     }
 
     /**
@@ -274,10 +360,20 @@ contract KAP721 is Context, KAP165, IKAP721, IKAP721Metadata, KYCHandler, Commit
      *
      * - `tokenId` must exist.
      */
-    function _isApprovedOrOwner(address spender, uint256 tokenId) internal view virtual returns (bool) {
-        require(_exists(tokenId), "KAP721: operator query for nonexistent token");
+    function _isApprovedOrOwner(address spender, uint256 tokenId)
+        internal
+        view
+        virtual
+        returns (bool)
+    {
+        require(
+            _exists(tokenId),
+            "KAP721: operator query for nonexistent token"
+        );
         address owner = KAP721.ownerOf(tokenId);
-        return (spender == owner || getApproved(tokenId) == spender || isApprovedForAll(owner, spender));
+        return (spender == owner ||
+            getApproved(tokenId) == spender ||
+            isApprovedForAll(owner, spender));
     }
 
     /**
@@ -378,7 +474,10 @@ contract KAP721 is Context, KAP165, IKAP721, IKAP721Metadata, KYCHandler, Commit
         address to,
         uint256 tokenId
     ) internal virtual {
-        require(KAP721.ownerOf(tokenId) == from, "KAP721: transfer from incorrect owner");
+        require(
+            KAP721.ownerOf(tokenId) == from,
+            "KAP721: transfer from incorrect owner"
+        );
         require(to != address(0), "KAP721: transfer to the zero address");
 
         _beforeTokenTransfer(from, to, tokenId);
@@ -437,11 +536,20 @@ contract KAP721 is Context, KAP165, IKAP721, IKAP721Metadata, KYCHandler, Commit
         bytes memory _data
     ) private returns (bool) {
         if (to.isContract()) {
-            try IKAP721Receiver(to).onKAP721Received(_msgSender(), from, tokenId, _data) returns (bytes4 retval) {
+            try
+                IKAP721Receiver(to).onKAP721Received(
+                    _msgSender(),
+                    from,
+                    tokenId,
+                    _data
+                )
+            returns (bytes4 retval) {
                 return retval == IKAP721Receiver.onKAP721Received.selector;
             } catch (bytes memory reason) {
                 if (reason.length == 0) {
-                    revert("KAP721: transfer to non KAP721Receiver implementer");
+                    revert(
+                        "KAP721: transfer to non KAP721Receiver implementer"
+                    );
                 } else {
                     assembly {
                         revert(add(32, reason), mload(reason))
