@@ -30,9 +30,25 @@ describe("MockKAP20", function () {
       expect(await token.hardcap()).to.equal(TOKEN.hardcap);
     });
 
-    it("mint under hardcap", async function () {});
+    it("mint under hardcap", async function () {
+      await expect(token.mint(
+        accounts[0].address,
+        ethers.utils.parseEther("900001") // Balance of accounts[0] = 100,000 and Hardcap = 1,000,000
+      )).to.be.revertedWith("KAP20Capped: hardcap exceeded");
+    });
 
-    it("mint over hardcap", async function () {});
+    it("mint over hardcap", async function () {
+      expect((await token.balanceOf(accounts[0].address)).toString()).to.equal(
+        "100000"
+      );
+      expect(await token.mint(
+        accounts[0].address,
+        ethers.utils.parseEther("100000")
+      )).to.equal(true);
+      expect((await token.balanceOf(accounts[0].address)).toString()).to.equal(
+        "200000"
+      );
+    });
   });
 
   describe("MockKAP20Blacklist feature", function () {
