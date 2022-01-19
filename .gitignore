@@ -10,6 +10,5 @@ artifacts
 docs
 
 #Yarn files
-yarn.lock
 !./yarn.lock
 yarn-error.log
