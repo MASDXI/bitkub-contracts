@@ -53,9 +53,9 @@ contract KAP721 is
      * @dev Initializes the contract by setting a `name` and a `symbol` to the token collection.
      */
     constructor(
+        string memory project_,
         string memory name_,
         string memory symbol_,
-        string memory project_,
         address admin_,
         address kyc_,
         address committee_,
@@ -597,4 +597,12 @@ contract KAP721 is
         address to,
         uint256 tokenId
     ) internal virtual {}
+
+    function pause() public onlyCommittee {
+        _pause();
+    }
+
+    function unpause() public onlyCommittee {
+        _unpause();
+    }
 }
