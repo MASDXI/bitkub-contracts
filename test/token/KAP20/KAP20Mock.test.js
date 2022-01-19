@@ -107,7 +107,7 @@ describe("MockKAP20", function () {
       await expect(
         token.connect(accounts[1]).transfer(accounts[0].address, 1)
       ).to.be.revertedWith(
-        "KAP20Blacklist: form address must not in blacklist"
+        "KAP20Blacklist: from address must not in blacklist"
       );
     });
   });
