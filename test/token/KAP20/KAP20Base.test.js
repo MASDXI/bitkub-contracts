@@ -81,13 +81,24 @@ describe("KAP20Base", function () {
       await expect(token.unpause()).to.be.revertedWith("Pausable: not paused");
     });
 
+    it("try set pause with the role is not allowed.", async function () {
+      await expect(token.connect(accounts[2]).pause())
+        .to.be.revertedWith("Committee: Restricted only committee")
+    });
+
     it("set unpaused to paused emit event", async function () {
       await expect(token.pause())
         .to.emit(token, "Paused")
         .withArgs(accounts[0].address);
     });
 
-    it("set paused to unpaused  emit event", async function () {
+    it("try set unpaused with the role is not allowed.", async function () {
+      await token.pause();
+      await expect(token.connect(accounts[2]).unpause())
+        .to.be.revertedWith("Committee: Restricted only committee")
+    });
+
+    it("set paused to unpaused emit event", async function () {
       await token.pause();
       await expect(token.unpause())
         .to.emit(token, "Unpaused")
