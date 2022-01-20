@@ -30,9 +30,16 @@ describe("MockKAP20", function () {
       expect(await token.hardcap()).to.equal(TOKEN.hardcap);
     });
 
-    it("mint under hardcap", async function () {});
+    it("mint under hardcap", async function () {
+      // TODO ACL discuss
+      // await token.mint(accounts[0].address,ONE_TOKEN);
+      // expect(await token.balanceOf(accounts[0].address)).to.equal(await token.totalSupply());
+    });
 
-    it("mint over hardcap", async function () {});
+    it("mint over hardcap", async function () {
+      // TODO ACL discuss
+      // expect(await token.mint(accounts[0].address,ONE_MILLION)).to.be.revertedWith("KAP20Capped: cap is 0");
+    });
   });
 
   describe("MockKAP20Blacklist feature", function () {
@@ -91,7 +98,7 @@ describe("MockKAP20", function () {
       await expect(
         token.connect(accounts[1]).transfer(accounts[0].address, 1)
       ).to.be.revertedWith(
-        "KAP20Blacklist: form address must not in blacklist"
+        "KAP20Blacklist: from address must not in blacklist"
       );
     });
   });
@@ -121,7 +128,10 @@ describe("MockKAP20", function () {
   });
 
   describe("MockKAP20Mintable feature", function () {
-    it("mint admin", async function () {});
+    it("mint admin", async function () {
+      await token.mint(accounts[0].address,constant.ONE_TOKEN);
+      // expect(await token.totalSupply()).to.equal()
+    });
 
     it("mint non admin", async function () {});
   });

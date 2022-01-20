@@ -34,6 +34,8 @@ abstract contract KAP20Blacklist is KAP20, IKAP20Blacklist {
     }
 
     function _addBlacklist(address account) internal {
+        //require(!isAdmin(account),"KAP20Blackilist: cant blacklist admin");
+        //require(!isComittee(account),"KAP20Blacklist: cant blacklist comittee");
         require(
             account != address(0),
             "KAP20Blacklist: can't blacklist deafult address"
@@ -47,6 +49,8 @@ abstract contract KAP20Blacklist is KAP20, IKAP20Blacklist {
     }
 
     function _revokeBlacklist(address account) internal {
+        //require(!isAdmin(account),"KAP20Blackilist: cant blacklist admin");
+        //require(!isComittee(account),"KAP20Blacklist: cant blacklist comittee");
         require(
             account != address(0),
             "KAP20Blacklist: can't blacklist deafult address"
@@ -81,4 +85,8 @@ abstract contract KAP20Blacklist is KAP20, IKAP20Blacklist {
             "KAP20Blacklist: to address must not in blacklist"
         );
     }
+
+`   /// missing approve restricted
+
+
 }
