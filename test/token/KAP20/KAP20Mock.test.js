@@ -31,14 +31,23 @@ describe("MockKAP20", function () {
     });
 
     it("mint under hardcap", async function () {
-      // TODO ACL discuss
-      // await token.mint(accounts[0].address,ONE_TOKEN);
-      // expect(await token.balanceOf(accounts[0].address)).to.equal(await token.totalSupply());
+      await expect(token.mint(
+        accounts[0].address,
+        ethers.utils.parseEther("900001") // Balance of accounts[0] = 100,000 and Hardcap = 1,000,000
+      )).to.be.revertedWith("KAP20Capped: hardcap exceeded");
     });
 
     it("mint over hardcap", async function () {
-      // TODO ACL discuss
-      // expect(await token.mint(accounts[0].address,ONE_MILLION)).to.be.revertedWith("KAP20Capped: cap is 0");
+      expect((await token.balanceOf(accounts[0].address)).toString()).to.equal(
+        "100000000000000000000000"
+      );
+      expect(await token.mint(
+        accounts[0].address,
+        ethers.utils.parseEther("100000")
+      )).to.equal(true);
+      expect((await token.balanceOf(accounts[0].address)).toString()).to.equal(
+        "200000000000000000000000"
+      );
     });
   });
 

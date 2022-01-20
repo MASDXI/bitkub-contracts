@@ -21,6 +21,8 @@
     "clean": "hardhat clean && rm -rf cache coverage docs",
     "test": "hardhat test",
     "test:kap20": "hardhat test ./test/token/KAP20.test.js",
+    "test:kap20:base": "hardhat test ./test/token/KAP20/KAP20Base.test.js",
+    "test:kap20:mock": "hardhat test ./test/token/KAP20/KAP20Mock.test.js",
     "test:kap20:blacklist": "hardhat test ./test/token/KAP20Blacklist.test.js",
     "test:kap20:capped": "hardhat test ./test/token/KAP20Capped.test.js",
     "test:coverage:kap20": "hardhat coverage ./test/coverage/KAP20.test.js",
