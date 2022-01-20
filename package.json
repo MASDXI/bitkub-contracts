@@ -20,6 +20,7 @@
     "compile": "hardhat compile",
     "clean": "hardhat clean && rm -rf cache coverage docs",
     "coverage": "hardhat coverage",
+    "coverage:kap20": "hardhat coverage --testfiles $PWD/test/token/KAP20",
     "coverage:kap20:base": "hardhat coverage --testfiles $PWD/test/token/KAP20/KAP20Base.test.js",
     "coverage:kap20:mock": "hardhat coverage --testfiles $PWD/test/token/KAP20/KAP20Mock.test.js",
     "test": "hardhat test",
