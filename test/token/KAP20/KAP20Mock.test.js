@@ -160,4 +160,40 @@ describe("MockKAP20", function () {
 
     it("mint non admin", async function () {});
   });
+
+  describe("MockKAP20Committee feature", function () {
+    it("try change committee to zero address", async function () {
+      await expect(token.setCommittee(TOKEN.ZERO_ADDRESS))
+      .to.be.revertedWith("Committee: can't set committee with default address")
+    });
+
+    it("try change committee with old address", async function () {
+      await expect(token.setCommittee(accounts[0].address))
+      .to.be.revertedWith("Committee: already set committee")
+    });
+
+    it("change committee emit event", async function () {
+      await expect(token.setCommittee(accounts[1].address))
+        .to.emit(token, "ComitteeChanged")
+        .withArgs(accounts[1].address);
+    });
+  });
+
+  describe("MockKAP20Authorization feature", function () {
+    it("try change admin to zero address", async function () {
+      await expect(token.setAdmin(TOKEN.ZERO_ADDRESS))
+      .to.be.revertedWith("Authorized: can't set admin with default address")
+    });
+
+    it("try change admin with old address", async function () {
+      await expect(token.setAdmin(accounts[0].address))
+      .to.be.revertedWith("Authorized: already set admin")
+    });
+
+    it("change admin emit event", async function () {
+      await expect(token.setAdmin(accounts[1].address))
+        .to.emit(token, "AdminChanged")
+        .withArgs(accounts[1].address);
+    });
+  });
 });
