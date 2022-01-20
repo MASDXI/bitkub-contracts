@@ -34,7 +34,7 @@ abstract contract KAP1155Blacklist is KAP1155, IKAP1155Blacklist {
     function _addBlacklist(address account) internal {
         require(
             account != address(0),
-            "KAP1155Blacklist: can't blacklist deafult address"
+            "KAP1155Blacklist: can't blacklist default address"
         );
         require(
             !hasBlacklist(account),
@@ -47,7 +47,7 @@ abstract contract KAP1155Blacklist is KAP1155, IKAP1155Blacklist {
     function _revokeBlacklist(address account) internal {
         require(
             account != address(0),
-            "KAP1155Blacklist: can't blacklist deafult address"
+            "KAP1155Blacklist: can't blacklist default address"
         );
         require(
             hasBlacklist(account),

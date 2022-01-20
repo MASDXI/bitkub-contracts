@@ -100,24 +100,24 @@ describe("MockKAP20", function () {
 
     it("try to add blacklist zero address should be reverted", async function () {
       await expect(token.addBlacklist(ZERO_ADDRESS)).to.be.revertedWith(
-        "KAP20Blacklist: can't blacklist deafult address"
+        "KAP20Blacklist: can't blacklist default address"
       );
     });
 
     it("try to revoke blacklist zero address should be reverted", async function () {
       await expect(token.revokeBlacklist(ZERO_ADDRESS)).to.be.revertedWith(
-        "KAP20Blacklist: can't blacklist deafult address"
+        "KAP20Blacklist: can't blacklist default address"
       );
     });
 
-    it("try transfer form non blacklist to blacklist address", async function () {
+    it("try transfer from non blacklist to blacklist address", async function () {
       await token.addBlacklist(accounts[1].address);
       await expect(
         token.connect(accounts[0]).transfer(accounts[1].address, 1)
       ).to.be.revertedWith("KAP20Blacklist: to address must not in blacklist");
     });
 
-    it("try transfer form blacklist address to non blacklist address", async function () {
+    it("try transfer from blacklist address to non blacklist address", async function () {
       await token.connect(accounts[0]).transfer(accounts[1].address, 1);
       await token.addBlacklist(accounts[1].address);
       await expect(
@@ -159,5 +159,41 @@ describe("MockKAP20", function () {
     });
 
     it("mint non admin", async function () {});
+  });
+
+  describe("MockKAP20Committee feature", function () {
+    it("try change committee to zero address", async function () {
+      await expect(token.setCommittee(TOKEN.ZERO_ADDRESS))
+      .to.be.revertedWith("Committee: can't set committee with default address")
+    });
+
+    it("try change committee with old address", async function () {
+      await expect(token.setCommittee(accounts[0].address))
+      .to.be.revertedWith("Committee: already set committee")
+    });
+
+    it("change committee emit event", async function () {
+      await expect(token.setCommittee(accounts[1].address))
+        .to.emit(token, "ComitteeChanged")
+        .withArgs(accounts[1].address);
+    });
+  });
+
+  describe("MockKAP20Authorization feature", function () {
+    it("try change admin to zero address", async function () {
+      await expect(token.setAdmin(TOKEN.ZERO_ADDRESS))
+      .to.be.revertedWith("Authorized: can't set admin with default address")
+    });
+
+    it("try change admin with old address", async function () {
+      await expect(token.setAdmin(accounts[0].address))
+      .to.be.revertedWith("Authorized: already set admin")
+    });
+
+    it("change admin emit event", async function () {
+      await expect(token.setAdmin(accounts[1].address))
+        .to.emit(token, "AdminChanged")
+        .withArgs(accounts[1].address);
+    });
   });
 });
