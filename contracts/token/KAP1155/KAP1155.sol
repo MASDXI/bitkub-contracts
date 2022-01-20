@@ -635,4 +635,12 @@ contract KAP1155 is
 
         return array;
     }
+
+    function pause() public onlyCommittee {
+        _pause();
+    }
+
+    function unpause() public onlyCommittee {
+        _unpause();
+    }
 }
