@@ -24,6 +24,7 @@
     "coverage:kap20:base": "hardhat coverage --testfiles $PWD/test/token/KAP20/KAP20Base.test.js",
     "coverage:kap20:mock": "hardhat coverage --testfiles $PWD/test/token/KAP20/KAP20Mock.test.js",
     "test": "hardhat test",
+    "test:kap20": "hardhat test $PWD/test/token/KAP20/*",
     "test:kap20:base": "hardhat test $PWD/test/token/KAP20/KAP20Base.test.js",
     "test:kap20:mock": "hardhat test $PWD/test/token/KAP20/KAP20Mock.test.js",
     "test:kap721:base": "hardhat test $PWD/test/token/KAP721/KAP721Base.test.js",
