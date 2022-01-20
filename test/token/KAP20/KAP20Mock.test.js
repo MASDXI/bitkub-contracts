@@ -126,6 +126,34 @@ describe("MockKAP20", function () {
         "KAP20Blacklist: from address must not in blacklist"
       );
     });
+
+    it("try transfer from non blacklist to blacklist address", async function () {
+      await token.connect(accounts[1]).approve(accounts[2].address, 1);
+      await token.addBlacklist(accounts[2].address);
+      await expect(
+        token.connect(accounts[2]).transferFrom(
+          accounts[1].address,
+          accounts[2].address,
+          1
+        )
+      ).to.be.revertedWith(
+        "KAP20Blacklist: to address must not in blacklist"
+      );
+    });
+
+    it("try transfer from blacklist address to non blacklist address after approval", async function () {
+      await token.connect(accounts[1]).approve(accounts[2].address, 1);
+      await token.addBlacklist(accounts[1].address);
+      await expect(
+        token.connect(accounts[2]).transferFrom(
+          accounts[1].address,
+          accounts[2].address,
+          1
+        )
+      ).to.be.revertedWith(
+        "KAP20Blacklist: from address must not in blacklist"
+      );
+    });
   });
 
   describe("MockKAP20Burnable feature", function () {
