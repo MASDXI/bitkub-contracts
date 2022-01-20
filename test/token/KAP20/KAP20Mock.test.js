@@ -6,9 +6,10 @@ const { TOKEN, ZERO_ADDRESS } = constant;
 describe("MockKAP20", function () {
   let accounts;
   let token;
+  let KAP20;
 
   beforeEach(async () => {
-    const KAP20 = await ethers.getContractFactory("MockKAP20");
+    KAP20 = await ethers.getContractFactory("MockKAP20");
     accounts = await ethers.getSigners();
     token = await KAP20.deploy(
       TOKEN.projectname,
@@ -48,6 +49,21 @@ describe("MockKAP20", function () {
       expect((await token.balanceOf(accounts[0].address)).toString()).to.equal(
         "200000000000000000000000"
       );
+    });
+
+    it("try deploy zero hardcap should be reverted", async function () {
+      await expect(KAP20.deploy(
+        TOKEN.projectname,
+        TOKEN.name,
+        TOKEN.symbol,
+        TOKEN.decimals,
+        4,
+        accounts[0].address,
+        accounts[0].address,
+        accounts[0].address,
+        accounts[0].address,
+        0
+      )).to.be.revertedWith("KAP20Capped: cap is 0");
     });
   });
 

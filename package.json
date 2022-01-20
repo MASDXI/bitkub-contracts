@@ -21,12 +21,12 @@
     "coverage": "hardhat coverage",
     "clean": "hardhat clean && rm -rf cache coverage docs",
     "test": "hardhat test",
-    "test:kap20:base": "hardhat test /test/token/KAP20/KAP20Base.test.js",
-    "test:kap20:mock": "hardhat test /test/token/KAP20/KAP20Mock.test.js",
-    "test:kap721:base": "hardhat test /test/token/KAP721/KAP721Base.test.js",
-    "test:kap721:mock": "hardhat test /test/token/KAP721/KAP721Mock.test.js",
-    "test:kap1155:base": "hardhat test /test/token/KAP1155/KAP1155Base.test.js",
-    "test:kap1155:mock": "hardhat test /test/toekn/KAP1155/KAP1155Mock.test.js"
+    "test:kap20:base": "hardhat test $PWD/test/token/KAP20/KAP20Base.test.js",
+    "test:kap20:mock": "hardhat test $PWD/test/token/KAP20/KAP20Mock.test.js",
+    "test:kap721:base": "hardhat test $PWD/test/token/KAP721/KAP721Base.test.js",
+    "test:kap721:mock": "hardhat test $PWD/test/token/KAP721/KAP721Mock.test.js",
+    "test:kap1155:base": "hardhat test $PWD/test/token/KAP1155/KAP1155Base.test.js",
+    "test:kap1155:mock": "hardhat test $PWD/test/toekn/KAP1155/KAP1155Mock.test.js"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.0",
