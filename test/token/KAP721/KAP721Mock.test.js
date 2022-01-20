@@ -78,14 +78,14 @@ describe("MockKAP721", function () {
       );
     });
 
-    it("try transfer form non blacklist to blacklist address", async function () {
+    it("try transfer from non blacklist to blacklist address", async function () {
       await token.addBlacklist(accounts[1].address);
       await expect(
         token.connect(accounts[0]).transfer(accounts[1].address, 1)
       ).to.be.revertedWith("KAP721Blacklist: to address must not in blacklist");
     });
 
-    it("try transfer form blacklist address to non blacklist address", async function () {
+    it("try transfer from blacklist address to non blacklist address", async function () {
       await token.connect(accounts[0]).transfer(accounts[1].address, 1);
       await token.addBlacklist(accounts[1].address);
       await expect(
