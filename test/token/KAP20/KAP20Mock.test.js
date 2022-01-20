@@ -39,14 +39,14 @@ describe("MockKAP20", function () {
 
     it("mint over hardcap", async function () {
       expect((await token.balanceOf(accounts[0].address)).toString()).to.equal(
-        "100000"
+        "100000000000000000000000"
       );
       expect(await token.mint(
         accounts[0].address,
         ethers.utils.parseEther("100000")
       )).to.equal(true);
       expect((await token.balanceOf(accounts[0].address)).toString()).to.equal(
-        "200000"
+        "200000000000000000000000"
       );
     });
   });
@@ -107,7 +107,7 @@ describe("MockKAP20", function () {
       await expect(
         token.connect(accounts[1]).transfer(accounts[0].address, 1)
       ).to.be.revertedWith(
-        "KAP20Blacklist: form address must not in blacklist"
+        "KAP20Blacklist: from address must not in blacklist"
       );
     });
   });
