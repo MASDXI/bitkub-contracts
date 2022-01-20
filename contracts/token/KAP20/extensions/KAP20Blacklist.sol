@@ -38,7 +38,7 @@ abstract contract KAP20Blacklist is KAP20, IKAP20Blacklist {
         //require(!isComittee(account),"KAP20Blacklist: cant blacklist comittee");
         require(
             account != address(0),
-            "KAP20Blacklist: can't blacklist deafult address"
+            "KAP20Blacklist: can't blacklist default address"
         );
         require(
             !hasBlacklist(account),
@@ -53,7 +53,7 @@ abstract contract KAP20Blacklist is KAP20, IKAP20Blacklist {
         //require(!isComittee(account),"KAP20Blacklist: cant blacklist comittee");
         require(
             account != address(0),
-            "KAP20Blacklist: can't blacklist deafult address"
+            "KAP20Blacklist: can't blacklist default address"
         );
         require(
             hasBlacklist(account),

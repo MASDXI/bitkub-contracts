@@ -68,13 +68,13 @@ describe("MockKAP721", function () {
 
     it("try to add blacklist zero address should be reverted", async function () {
       await expect(token.addBlacklist(ZERO_ADDRESS)).to.be.revertedWith(
-        "KAP721Blacklist: can't blacklist deafult address"
+        "KAP721Blacklist: can't blacklist default address"
       );
     });
 
     it("try to revoke blacklist zero address should be reverted", async function () {
       await expect(token.revokeBlacklist(ZERO_ADDRESS)).to.be.revertedWith(
-        "KAP721Blacklist: can't blacklist deafult address"
+        "KAP721Blacklist: can't blacklist default address"
       );
     });
 
