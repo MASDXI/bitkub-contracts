@@ -10,7 +10,7 @@ abstract contract KAP721Mintable is KAP721Enumerable {
         _hardcap = hardcap_;
     }
 
-    function hardcap() public view returns (uint256){
+    function hardcap() public view returns (uint256) {
         return _hardcap;
     }
 
@@ -19,7 +19,6 @@ abstract contract KAP721Mintable is KAP721Enumerable {
             KAP721Enumerable.totalSupply() + 1 <= hardcap(),
             "KAP721Capped: hardcap exceeded"
         );
-        super._mint(to,tokenId);
+        super._mint(to, tokenId);
     }
-
 }

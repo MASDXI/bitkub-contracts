@@ -85,8 +85,5 @@ abstract contract KAP20Blacklist is KAP20, IKAP20Blacklist {
             "KAP20Blacklist: to address must not in blacklist"
         );
     }
-
-`   /// missing approve restricted
-
-
+    /// missing approve restricted
 }
