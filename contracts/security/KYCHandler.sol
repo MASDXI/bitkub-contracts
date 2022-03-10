@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 import "./interface/IKYCBitkubChain.sol";
 
-abstract contract KYCHandler {
+abstract contract KYCHandler is IKYCBitkubChain {
     IKYCBitkubChain private _kyc;
 
     uint8 public acceptedKycLevel;
@@ -16,18 +16,22 @@ abstract contract KYCHandler {
 
     function _activateOnlyKycAddress() internal virtual {
         isActivatedOnlyKycAddress = true;
+        emit OnlyKycAddressActivated();
     }
 
     function _deactivateOnlyKycAddress() internal virtual {
         isActivatedOnlyKycAddress = false;
+        emit OnlyKycAddressDeactived();
     }
 
     function _setKYC(address kyc_) internal virtual {
         _kyc = IKYCBitkubChain(kyc_);
+        emit KycChanged(kyc_);
     }
 
     function _setAcceptedKycLevel(uint8 kycLevel) internal virtual {
         acceptedKycLevel = kycLevel;
+        emit AcceptedKycLevelChanged(kycLevel);
     }
 
     function kyc() public view returns (IKYCBitkubChain) {
