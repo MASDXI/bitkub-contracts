@@ -1,20 +1,31 @@
 # bitkub-contracts
 
-A library for developing smart contracts on bitkub chain
+A community edition library for developing smart contracts on bitkub chain
 
 ### Installation
 
 Install via `npm`
 ``` shell
-npm install --dev @masdxi/bitkub-contracts@stable
+npm install --dev @masdxi/bitkub-contracts
 ```
 Install via `yarn`
 ``` shell
-yarn add --dev @masdxi/bitkub-contracts@stable
+yarn add --dev @masdxi/bitkub-contracts
 ```
 ### Usage
 
-> TODO
+``` solidity
+import "@masdxi/bitkub-contracts/<path>/<file>.sol";
+```
 
-#### License
+### Contribute
+
+Check out the contribution [guide](CONTRIBUTING.md)
+
+## Support and Issue
+
+For support or any inquiries, feel free to reach out to us at [github-issue](https://github.com/MASDXI/bitkub-contracts/issues)
+
+
+### License
 `bitkub-contracts` is released under the [MIT](LICENSE) License.

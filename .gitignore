@@ -1,8 +1,11 @@
+.vscode
+.DS_Store
 node_modules
 .env
 coverage
 coverage.json
 typechain
+backup
 
 #Hardhat files
 cache
@@ -12,3 +15,22 @@ docs
 #Yarn files
 !./yarn.lock
 yarn-error.log
+node_modules
+.env
+
+# Hardhat files
+/cache
+/artifacts
+
+# TypeChain files
+/typechain
+/typechain-types
+
+# solidity-coverage files
+/coverage
+/coverage.json
+
+# Hardhat Ignition default folder for deployments against a local node
+ignition/deployments/chain-31337
+ignition/deployments/chain-96
+ignition/deployments/chain-25925
