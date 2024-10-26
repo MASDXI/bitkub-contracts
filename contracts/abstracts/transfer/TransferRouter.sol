@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./IRouter.sol";
+import {ITransferRouter} from "./ITransferRouter.sol";
 
-abstract contract Router {
+abstract contract TransferRouter {
     IRouter private _router;
 
     event TransferRouterChanged(address routerContract);
 
     constructor(address router_) {
-        _router = IRouter(router_);
+        _router = ITransferRouter(router_);
     }
 
     function _setTransferRouter(address routerContract) internal {
-        _router = IRouter(routerContract);
+        _router = ITransferRouter(routerContract);
         emit TransferRouterChanged(address(routerContract));
     }
 

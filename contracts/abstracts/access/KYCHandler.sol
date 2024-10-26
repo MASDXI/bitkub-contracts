@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./interface/IKYCBitkubChain.sol";
+import "./interfaces/IKYCBitkubChain.sol";
 
 abstract contract KYCHandler is IKYCBitkubChain {
     IKYCBitkubChain private _kyc;

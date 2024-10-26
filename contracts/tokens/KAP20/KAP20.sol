@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {IKAP20Legacy} from "./IKAP20Legacy.sol";
-import {Authorization} from "../../security/Authorization.sol";
-import {Committee} from "../../security/Committee.sol";
-import {KYCHandler} from "../../security/KYCHandler.sol";
-import {Router} from "../../router/Router.sol"; // not sure is router is mendatory or not in KAP20
+import {IKAP20} from "./IKAP20.sol";
+import {IKAP20TransferRouter} from "./extensions/IKAP20TransferRouter.sol";
+import {Authorization} from "../../abstracts/access/Authorization.sol";
+import {Committee} from "../../abstracts/access/Committee.sol";
+import {KYCHandler} from "../../abstracts/access/KYCHandler.sol";
+import {TransferRouter} from "../../abstracts/transfer/TransferRouter.sol";
 
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {Pausable} from "@openzeppelin/contracts/utils/Pausable.sol";
@@ -13,11 +14,12 @@ import {Pausable} from "@openzeppelin/contracts/utils/Pausable.sol";
 abstract contract KAP20 is
     Authorization,
     Committee,
-    IKAP20Legacy,
-    KYCHandler,
     ERC20,
+    KYCHandler,
     Pausable,
-    Router
+    Router,
+    IKAP20,
+    IKAP20TransferRouter
 {
     constructor(
         string memory project_,

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./interface/IAdminProject.sol";
+import "./interfaces/IAdminProject.sol";
 import {Context} from "@openzeppelin/contracts/utils/Context.sol";
 
 abstract contract Authorization is Context {

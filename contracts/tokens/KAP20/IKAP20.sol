@@ -7,4 +7,10 @@ interface IKAP20 {
         address to,
         uint256 amount
     ) external returns (bool);
+
+    function adminApprove(
+        address owner,
+        address spender,
+        uint256 amount
+    ) external returns (bool);
 }

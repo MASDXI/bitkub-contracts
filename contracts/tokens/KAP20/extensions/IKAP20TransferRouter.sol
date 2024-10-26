@@ -1,15 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./IKAP20.sol";
+import "../IKAP20.sol";
 
-interface IKAP20Legacy is IKAP20 {
-
-    function adminApprove(
-        address owner,
-        address spender,
-        uint256 amount
-    ) external returns (bool);
+interface IKAP20TransferRouter is IKAP20 {
 
     function internalTransfer(
         address from,
