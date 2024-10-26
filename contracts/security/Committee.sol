@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "../utils/Context.sol";
+import {Context} from "@openzeppelin/contracts/utils/Context.sol";
 
 abstract contract Committee is Context {
     event ComitteeChanged(address committeeAddress);
