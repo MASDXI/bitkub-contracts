@@ -34,12 +34,14 @@ abstract contract ProjectAccessController is Context {
 
     constructor(
         string memory project_,
+        uint8 acceptedKycLevel_,
         address adminRegsitry_,
         address committee_,
         address kycRegistry_,
         address transferRouter_
     ) {
         _project = project_;
+        _acceptedKycLevel = acceptedKycLevel_;
         _adminRegistry = IAdminRegistry(adminRegsitry_);
         _committee = committee_;
         _kycRegistry = IKYCRegistry(kycRegistry_);

@@ -3,7 +3,7 @@ pragma solidity >=0.8.0 <0.9.0;
 
 import {IKAP20} from "./IKAP20.sol";
 import {IKAP20TransferRouter} from "./extensions/IKAP20TransferRouter.sol";
-import {ProjectAccessController } from "../../abstracts/ProjectAccessController .sol";
+import {ProjectAccessController } from "../../abstracts/ProjectAccessController.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {Pausable} from "@openzeppelin/contracts/utils/Pausable.sol";
@@ -27,7 +27,7 @@ abstract contract KAP20 is
         address transferRouter_,
         address owner_
     )
-        ProjectAccessController (projectName_, adminRegistry_, committee_, kycRegistry_, transferRouter_)
+        ProjectAccessController (projectName_, acceptedKycLevel_, adminRegistry_, committee_, kycRegistry_, transferRouter_)
         ERC20(tokenName_, tokenSymbol_)
         Ownable(owner_)
     {}
