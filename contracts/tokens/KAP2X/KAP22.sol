@@ -4,7 +4,7 @@ pragma solidity >=0.8.0 <0.9.0;
 /// @notice this contract revised/refactor version form original smart contract code
 /// https://testnet.bkcscan.com/address/0xAB590a38902Fc186120Ff18Ed4106e53B9C481a5?tab=contract
 
-/// @custom:obseravation
+/// @custom:observation
 /// asset intergrity due to relies on `block.timestamp`. If the network halts, balances will expire,
 /// making this unsuitable for Layer 2 (L2) networks where `block.timestamp` returns the Layer 1 (L1) network timestamp.
 /// asset intergrity If `currentIndex` is not updated, all balances within the same period will expire on the same date.
