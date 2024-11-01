@@ -43,7 +43,7 @@ abstract contract KAP22Whitelist is KAP22, IKAP22Whitelist {
         address from,
         address to,
         uint256 value
-    ) internal virtual override {
+    ) internal virtual override refreshPeriod {
         _update(from, to, currentIndex(), value);
     }
 
@@ -82,7 +82,8 @@ abstract contract KAP22Whitelist is KAP22, IKAP22Whitelist {
     function isWhitelist(address _addr) public view override returns (bool) {
         return _whitelist.contains(_addr);
     }
-
+    
+    // @TODO
     function addWhitelistAddress(address account) public onlyOwner {
         if (account == address(0) && account == address(this)) {
             // revert  // "WhitelistAddress: invalid address"
@@ -93,6 +94,7 @@ abstract contract KAP22Whitelist is KAP22, IKAP22Whitelist {
         // emit event
     }
 
+    // @TODO
     function revokeWhitelistAddress(address account) public onlyOwner {
         if (!_whitelist.remove(account)) {
             // revert  // "WhitelistAddress: address does not exist"

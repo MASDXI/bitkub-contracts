@@ -98,7 +98,7 @@ abstract contract KAP22 is
         address from,
         address to,
         uint256 value
-    ) internal virtual override(ERC20) {
+    ) internal virtual override(ERC20) refreshPeriod {
         _update(from, to, _currentIndex, value);
     }
 
@@ -141,7 +141,7 @@ abstract contract KAP22 is
     }
 
     /// @custom:obersbvation it's take loop before knowing will be revert at first
-    function _updatePreviosPeriod(
+    function _updatePreviousPeriod(
         address from,
         address to,
         uint256 value,
@@ -225,8 +225,13 @@ abstract contract KAP22 is
         return true;
     }
 
-    function adminTransferPreviousPeriod(address from, address to, uint256 period, uint256 value) public virtual returns (bool) {
-        _updatePreviosPeriod(from, to, value, period);
+    function adminTransferPreviousPeriod(
+        address from,
+        address to,
+        uint256 period,
+        uint256 value
+    ) public virtual returns (bool) {
+        _updatePreviousPeriod(from, to, value, period);
         return true;
     }
 
@@ -249,4 +254,8 @@ abstract contract KAP22 is
     function periodLength() public view override returns (uint256) {
         return _periodLength;
     }
+
+    // @TODO
+    // interanalTransfer
+    // externalTransfer
 }
