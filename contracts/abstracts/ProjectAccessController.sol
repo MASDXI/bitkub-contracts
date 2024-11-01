@@ -22,6 +22,10 @@ abstract contract ProjectAccessController is Context {
     event CommitteeChanged(address committee);
     event KycChanged(address kyc);
     event AcceptedKycLevelChanged(uint8 kyclevel);
+    event TransferRouterChanged(address transferRouter);
+
+    event OnlyKycAddressActivated();
+    event OnlyKycAddressDeactived();
 
     error RestrictedOnlyAdmin();
     error RestrictedOnlyCommittee();
@@ -120,27 +124,27 @@ abstract contract ProjectAccessController is Context {
 
     function activateOnlyKycAddress() public onlyCommittee {
         _isActivatedOnlyKycAddress = true;
-        // emit OnlyKycAddressActivated();
+        emit OnlyKycAddressActivated();
     }
 
     function deactivateOnlyKycAddress() public onlyCommittee {
         _isActivatedOnlyKycAddress = false;
-        // emit OnlyKycAddressDeactived();
+        emit OnlyKycAddressDeactived();
     }
 
     function setKYCRegistry(address kyc) public onlyCommittee {
         _kycRegistry = IKYCRegistry(kyc);
-        // emit KycChanged(kyc_);
+        emit KycChanged(kyc);
     }
 
     function setAcceptedKycLevel(uint8 kycLevel) public onlyCommittee() {
         _acceptedKycLevel = kycLevel;
-        // emit AcceptedKycLevelChanged(kycLevel);
+        emit AcceptedKycLevelChanged(kycLevel);
     }
 
     function setTransferRouter(address transferRouter) external onlyCommittee {
         _transferRouter = transferRouter;
-        // emit TransferRouterChanged(transferRouter);
+        emit TransferRouterChanged(transferRouter);
     }
 
     function kyc() public view returns (IKYCRegistry) {
