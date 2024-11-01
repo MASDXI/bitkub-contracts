@@ -81,6 +81,19 @@ abstract contract KAP22 is
         _;
     }
 
+    function _isNotKYCUser(
+        address from,
+        address to
+    ) internal view returns (bool) {
+        uint8 acceptedLevelCache = _getAcceptedKycLevel();
+        if (
+            kyc().kycsLevel(from) < acceptedLevelCache ||
+            kyc().kycsLevel(to) < acceptedLevelCache
+        ) {
+            return true;
+        }
+    }
+
     function _updatePeriod() internal {
         _currentIndex = _calculatePeriod();
     }
@@ -230,7 +243,7 @@ abstract contract KAP22 is
         address to,
         uint256 period,
         uint256 value
-    ) public virtual returns (bool) {
+    ) public virtual onlyCommittee returns (bool) {
         _updatePreviousPeriod(from, to, value, period);
         return true;
     }
@@ -255,7 +268,68 @@ abstract contract KAP22 is
         return _periodLength;
     }
 
-    // @TODO
-    // interanalTransfer
-    // externalTransfer
+    function adminApprove(
+        address owner,
+        address spender,
+        uint256 value
+    ) external override onlySuperAdminOrAdmin returns (bool) {
+        if (_isNotKYCUser(owner, spender)) {
+            revert KAP20NotKYCUser();
+        }
+        _approve(owner, spender, value);
+        return true;
+    }
+
+    function adminTransfer(
+        address sender,
+        address recipient,
+        uint256 value
+    ) external override onlyCommittee returns (bool) {
+        _transfer(sender, recipient, value);
+        return true;
+    }
+
+    function internalTransfer(
+        address from,
+        address to,
+        uint256 value
+    )
+        external
+        override
+        whenNotPaused
+        onlySuperAdminOrTransferRouter
+        returns (bool)
+    {
+        if (_isNotKYCUser(from, to)) {
+            revert KAP20OnlyInternalPurpose();
+        }
+        _transfer(from, to, value);
+        return true;
+    }
+
+    function externalTransfer(
+        address from,
+        address to,
+        uint256 value
+    )
+        external
+        override
+        whenNotPaused
+        onlySuperAdminOrTransferRouter
+        returns (bool)
+    {
+        if (kyc().kycsLevel(from) < _getAcceptedKycLevel()) {
+            revert KAP20OnlyExternalPurpose();
+        }
+        _transfer(from, to, value);
+        return true;
+    }
+
+    function pause() public onlyCommittee {
+        _pause();
+    }
+
+    function unpause() public onlyCommittee {
+        _unpause();
+    }
 }
