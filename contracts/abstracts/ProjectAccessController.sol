@@ -3,7 +3,7 @@ pragma solidity >=0.8.0 <0.9.0;
 
 /// @title ProjectAccessController Contract
 /// @notice Consolidates all access-related functionality into a single contract, 
-///         avoiding complex or invalid inheritance hierarchies.
+/// avoiding complex or invalid inheritance hierarchies.
 
 import {IAdminProject as IAdminRegistry} from "./interfaces/IAdminProject.sol";
 import {IKYCBitkubChain as IKYCRegistry} from "./interfaces/IKYCBitkubChain.sol";

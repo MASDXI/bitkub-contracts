@@ -17,6 +17,8 @@ interface IKAP22 is IKAP20 {
     function transferFrom(address from, address to, uint256 period, uint256 amount) external returns (bool);
     function balanceOf(address account, uint256 period) external returns (uint256);
 
+    // function adminTransferPreviousPeriod(address from, address to, uint256 period, uint256 amount) external returns (bool);
+
     function currentIndex() external view returns (uint256);
     function currentPeriod() external view returns (uint256);
     function startTime() external view returns (uint256);

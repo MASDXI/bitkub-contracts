@@ -9,14 +9,18 @@ pragma solidity >=0.8.0 <0.9.0;
 /// making this unsuitable for Layer 2 (L2) networks where `block.timestamp` returns the Layer 1 (L1) network timestamp.
 /// asset intergrity If `currentIndex` is not updated, all balances within the same period will expire on the same date.
 /// potential create gas griefing `_currentPeriod` and `_updatePeriod` may create a heavy loop if the period duration is too short.
-
-/// receive timing       |------------------------|
-/// early of period      |  full benefits         |
-///                      |------------------------|
-/// half of period       |  partial benefits      |
-///                      |------------------------|
-/// near period change   |  loss of benefits      |
-///                      |------------------------|
+/// Example scenario:
+/// - Alice receives 10 tokens from a merchant at the start of the period, allowing full usability of tokens until the period changes.
+/// - Bob receives 10 tokens just before the period changes (e.g., within 100 blocks), resulting in a shorter usability period compared to Alice.
+///
+/// Timing of token receipt and benefit impact:
+/// ─────────────────────────────────────────────────────────
+/// | Early in period    | Full benefits                    |
+/// |────────────────────|──────────────────────────────────|
+/// | Mid-period         | Partial benefits                 |
+/// |────────────────────|──────────────────────────────────|
+/// | Near period change | Reduced benefits                 |
+/// ─────────────────────────────────────────────────────────
 
 import {IKAP20} from "./IKAP20.sol"; // adminTransfer, adminApporve
 import {IKAP22} from "./extensions/IKAP22.sol";
@@ -54,8 +58,8 @@ abstract contract KAP22 is
         address kycRegistry_,
         address transferRouter_,
         address owner_,
-        uint256 startTime_,    // for KAP22
-        uint256 periodLength_  // for KAP22
+        uint256 startTime_, // for KAP22
+        uint256 periodLength_ // for KAP22
     )
         ProjectAccessController(
             projectName_,
@@ -137,6 +141,36 @@ abstract contract KAP22 is
         // emit Transfer(from, to, period, value);
     }
 
+    /// @custom:obersbvation it's take loop before knowing will be revert at first
+    function _updatePreviosPeriod(
+        address from,
+        address to,
+        uint256 value,
+        uint256 period
+    ) internal refreshPeriod {
+        uint256 remainingToTransfer = value;
+        uint256 amountToTransfer;
+        for (uint256 i = period; i <= _currentIndex; i++) {
+            if (_balances[from][i] > remainingToTransfer) {
+                amountToTransfer = remainingToTransfer;
+            }
+
+            _balances[from][i] -= amountToTransfer;
+            _balances[to][i] += amountToTransfer;
+
+            remainingToTransfer -= amountToTransfer;
+
+            if (remainingToTransfer == 0) {
+                break;
+            }
+        }
+        if (remainingToTransfer > 0) {
+            revert ERC20InsufficientBalance(from, amountToTransfer, value);
+        }
+
+        emit Transfer(from, to, value);
+    }
+
     function _transfer(
         address from,
         address to,
@@ -168,7 +202,7 @@ abstract contract KAP22 is
 
     function balanceOf(
         address account
-    ) public view override(ERC20, IERC20) returns (uint256) {
+    ) public view virtual override(ERC20, IERC20) returns (uint256) {
         uint256 period = _calculatePeriod();
         return (_balances[account][period] + _balances[account][period + 1]);
     }
@@ -196,19 +230,19 @@ abstract contract KAP22 is
         _updatePeriod();
     }
 
-    function currentIndex() external view override returns (uint256) {
+    function currentIndex() public view override returns (uint256) {
         return _currentIndex;
     }
 
-    function currentPeriod() external view override returns (uint256) {
+    function currentPeriod() public view override returns (uint256) {
         return _calculatePeriod();
     }
 
-    function startTime() external view override returns (uint256) {
+    function startTime() public view override returns (uint256) {
         return _startTime;
     }
 
-    function periodLength() external view override returns (uint256) {
+    function periodLength() public view override returns (uint256) {
         return _periodLength;
     }
 }
