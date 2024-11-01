@@ -111,7 +111,7 @@ abstract contract KAP22 is
         uint256 period,
         uint256 value
     ) internal virtual refreshPeriod {
-        // modified acess to new storage from openzeppelin ERC20
+        // modified from openzeppelin ERC20
         if (from == address(0)) {
             // Overflow check required: The rest of the code assumes that totalSupply never overflows
             _totalSupply += value;
