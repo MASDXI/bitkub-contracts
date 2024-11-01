@@ -49,28 +49,28 @@ abstract contract KAP20 is
     function adminApprove(
         address owner,
         address spender,
-        uint256 amount
+        uint256 value
     ) external override onlySuperAdminOrAdmin returns (bool) {
         if (_isNotKYCUser(owner, spender)) {
             revert KAP20NotKYCUser();
         }
-        _approve(owner, spender, amount);
+        _approve(owner, spender, value);
         return true;
     }
 
     function adminTransfer(
         address sender,
         address recipient,
-        uint256 amount
+        uint256 value
     ) external override onlyCommittee returns (bool) {
-        _transfer(sender, recipient, amount);
+        _transfer(sender, recipient, value);
         return true;
     }
 
     function internalTransfer(
         address from,
         address to,
-        uint256 amount
+        uint256 value
     )
         external
         override
@@ -81,14 +81,14 @@ abstract contract KAP20 is
         if (_isNotKYCUser(from, to)) {
             revert KAP20OnlyInternalPurpose();
         }
-        _transfer(from, to, amount);
+        _transfer(from, to, value);
         return true;
     }
 
     function externalTransfer(
         address from,
         address to,
-        uint256 amount
+        uint256 value
     )
         external
         override
@@ -99,7 +99,7 @@ abstract contract KAP20 is
         if (kyc().kycsLevel(from) < _getAcceptedKycLevel()) {
             revert KAP20OnlyExternalPurpose();
         }
-        _transfer(from, to, amount);
+        _transfer(from, to, value);
         return true;
     }
 

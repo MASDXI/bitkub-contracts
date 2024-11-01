@@ -138,7 +138,6 @@ abstract contract KAP22 is
             }
         }
         emit Transfer(from, to, value);
-        // emit Transfer(from, to, period, value);
     }
 
     /// @custom:obersbvation it's take loop before knowing will be revert at first
@@ -149,23 +148,23 @@ abstract contract KAP22 is
         uint256 period
     ) internal refreshPeriod {
         uint256 remainingToTransfer = value;
-        uint256 amountToTransfer;
-        for (uint256 i = period; i <= _currentIndex; i++) {
-            if (_balances[from][i] > remainingToTransfer) {
-                amountToTransfer = remainingToTransfer;
+        uint256 valueToTransfer;
+        for (; period <= _currentIndex; period++) {
+            if (_balances[from][period] > remainingToTransfer) {
+                valueToTransfer = remainingToTransfer;
             }
 
-            _balances[from][i] -= amountToTransfer;
-            _balances[to][i] += amountToTransfer;
+            _balances[from][period] -= valueToTransfer;
+            _balances[to][period] += valueToTransfer;
 
-            remainingToTransfer -= amountToTransfer;
+            remainingToTransfer -= valueToTransfer;
 
             if (remainingToTransfer == 0) {
                 break;
             }
         }
         if (remainingToTransfer > 0) {
-            revert ERC20InsufficientBalance(from, amountToTransfer, value);
+            revert ERC20InsufficientBalance(from, valueToTransfer, value);
         }
 
         emit Transfer(from, to, value);
@@ -223,6 +222,11 @@ abstract contract KAP22 is
         address spender = _msgSender();
         _spendAllowance(from, spender, value);
         _transfer(from, to, period, value);
+        return true;
+    }
+
+    function adminTransferPreviousPeriod(address from, address to, uint256 period, uint256 value) public virtual returns (bool) {
+        _updatePreviosPeriod(from, to, value, period);
         return true;
     }
 

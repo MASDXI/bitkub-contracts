@@ -10,12 +10,12 @@ interface IKAP20SDK is IKAP20 {
     function approveBySDK(
         address owner,
         address spender,
-        uint256 amount
+        uint256 value
     ) external returns (bool);
 
     function transferFromBySDK(
         address from,
         address to,
-        uint256 amount
+        uint256 value
     ) external returns (bool);
 }

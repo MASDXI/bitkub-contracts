@@ -9,12 +9,12 @@ interface IKAP20 is IERC20 {
     function adminTransfer(
         address from,
         address to,
-        uint256 amount
+        uint256 value
     ) external returns (bool);
 
     function adminApprove(
         address owner,
         address spender,
-        uint256 amount
+        uint256 value
     ) external returns (bool);
 }

@@ -45,21 +45,21 @@ abstract contract KAP20SDK is KAP20, IKAP20SDK {
     function approveBySDK(
         address owner,
         address spender,
-        uint256 amount
+        uint256 value
     ) external override onlyExecutor returns (bool) {
-        _approve(owner, spender, amount);
+        _approve(owner, spender, value);
         return true;
     }
 
     function transferFromBySDK(
         address from,
         address to,
-        uint256 amount
+        uint256 value
     ) external override onlyExecutor returns (bool) {
         if (_isNotKYCUser(from, to)) {
             revert KAP20OnlyInternalPurpose();
         }
-        _transfer(from, to, amount);
+        _transfer(from, to, value);
         return true;
     }
 }

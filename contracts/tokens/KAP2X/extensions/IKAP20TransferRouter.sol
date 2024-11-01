@@ -10,12 +10,12 @@ interface IKAP20TransferRouter is IKAP20 {
     function internalTransfer(
         address from,
         address to,
-        uint256 amount
+        uint256 value
     ) external returns (bool);
 
     function externalTransfer(
         address from,
         address to,
-        uint256 amount
+        uint256 value
     ) external returns (bool);
 }
